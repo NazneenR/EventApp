@@ -1,9 +1,12 @@
 package thoughtworks.eventapp.model;
 
 public class Session {
-  private final String name;
-  private final String description;
-  private final String date;
+  private String name;
+  private String description;
+  private String date;
+
+  public Session() {
+  }
 
   public Session(String name, String description, String date) {
     this.name = name;
