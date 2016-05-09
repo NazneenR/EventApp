@@ -16,6 +16,7 @@ import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Sessions;
 import thoughtworks.eventapp.view.AgendaView;
+import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -31,7 +32,7 @@ public class AgendaPresenterTest {
   private AgendaView agendaViewMock;
   private AgendaPresenter agendaPresenter;
   @Captor
-  private ArgumentCaptor<Sessions> sessionsArgumentCaptor;
+  private ArgumentCaptor<List<SessionViewModel>> sessionViewModelArgumentCaptor;
 
   @Before
   public void setUp() throws Exception {
@@ -50,8 +51,8 @@ public class AgendaPresenterTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Sessions sessions = new Sessions();
-        Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016");
-        Session session2 = new Session("Keynote", "By Roy Singham", "24-05-2016");
+        Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016", "", "");
+        Session session2 = new Session("Keynote", "By Roy Singham", "24-05-2016", "", "");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
@@ -64,11 +65,11 @@ public class AgendaPresenterTest {
 
     agendaPresenter.renderSessions();
 
-    verify(agendaViewMock).render(sessionsArgumentCaptor.capture());
+    verify(agendaViewMock).render(sessionViewModelArgumentCaptor.capture());
 
-    final Sessions sessions = sessionsArgumentCaptor.getValue();
+    final List<SessionViewModel> sessions = sessionViewModelArgumentCaptor.getValue();
 
-    assertThat("Craft", is(sessions.getSessions().get(0).getName()));
-    assertThat(2, is(sessions.getSessions().size()));
+    assertThat("Craft", is(sessions.get(0).getName()));
+    assertThat(2, is(sessions.size()));
   }
 }

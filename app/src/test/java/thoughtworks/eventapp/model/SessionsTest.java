@@ -13,8 +13,8 @@ public class SessionsTest {
   @Test
   public void filterSessionsByDate() {
     Sessions sessions = new Sessions();
-    Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016");
-    Session session2 = new Session("Craft", "Try your hand at craft", "24-05-2016");
+    Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016", "", "");
+    Session session2 = new Session("Craft", "Try your hand at craft", "24-05-2016", "", "");
     List<Session> sessionList = new ArrayList<>();
     sessionList.add(session1);
     sessionList.add(session2);

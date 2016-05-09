@@ -1,7 +1,8 @@
 package thoughtworks.eventapp.view;
 
-import thoughtworks.eventapp.model.Sessions;
+import java.util.List;
+import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 public interface AgendaView {
-  void render(Sessions sessions);
+  void render(List<SessionViewModel> sessions);
 }
