@@ -28,6 +28,7 @@ public class AgendaPresenter {
       @Override
       public void onSuccess(Sessions sessions) {
         List<ArrayList<SessionViewModel>> sessionViewModels = new ArrayList<>();
+        // TODO: remove the date hardcoding
         sessionViewModels.add(getSessionViewModelsByDate(sessions, "2016-05-23"));
         sessionViewModels.add(getSessionViewModelsByDate(sessions, "2016-05-24"));
         agendaView.render(sessionViewModels);
