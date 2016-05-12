@@ -1,5 +1,7 @@
 package thoughtworks.eventapp.presenter;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +23,13 @@ public class AgendaPresenter {
     this.agendaView = agendaView;
   }
 
-  public void renderSessions(){
+  public void fetchSessions(){
     apiClient.get(Constants.api, new APIClientCallback<Sessions>() {
       @Override
       public void onSuccess(Sessions sessions) {
-        List<SessionViewModel> sessionViewModels = new ArrayList<>();
-        for (Session session : sessions.getSessions()) {
-          sessionViewModels.add(new SessionViewModel(session));
-        }
+        List<ArrayList<SessionViewModel>> sessionViewModels = new ArrayList<>();
+        sessionViewModels.add(getSessionViewModelsByDate(sessions, "2016-05-23"));
+        sessionViewModels.add(getSessionViewModelsByDate(sessions, "2016-05-24"));
         agendaView.render(sessionViewModels);
       }
 
@@ -37,5 +38,15 @@ public class AgendaPresenter {
         return Sessions.class;
       }
     });
+  }
+
+  @NonNull
+  private ArrayList<SessionViewModel> getSessionViewModelsByDate(Sessions sessions, String date) {
+    ArrayList<SessionViewModel> sessionViewModels = new ArrayList<>();
+    final List<Session> filteredSessions = sessions.filterByDate(date);
+    for (Session session : filteredSessions) {
+      sessionViewModels.add(new SessionViewModel(session));
+    }
+    return sessionViewModels;
   }
 }

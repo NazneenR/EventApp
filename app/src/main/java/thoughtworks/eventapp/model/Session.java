@@ -1,6 +1,9 @@
 package thoughtworks.eventapp.model;
 
-public class Session {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Session implements Parcelable {
   private String name;
   private String description;
   private String date;
@@ -9,6 +12,26 @@ public class Session {
 
   public Session() {
   }
+
+  protected Session(Parcel in) {
+    name = in.readString();
+    description = in.readString();
+    date = in.readString();
+    startTime = in.readString();
+    endTime = in.readString();
+  }
+
+  public static final Creator<Session> CREATOR = new Creator<Session>() {
+    @Override
+    public Session createFromParcel(Parcel in) {
+      return new Session(in);
+    }
+
+    @Override
+    public Session[] newArray(int size) {
+      return new Session[size];
+    }
+  };
 
   public String getStartTime() {
     return startTime;
@@ -37,5 +60,19 @@ public class Session {
 
   public String getName() {
     return name;
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel parcel, int i) {
+    parcel.writeString(name);
+    parcel.writeString(description);
+    parcel.writeString(date);
+    parcel.writeString(startTime);
+    parcel.writeString(endTime);
   }
 }

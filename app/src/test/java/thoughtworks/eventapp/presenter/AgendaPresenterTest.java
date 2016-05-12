@@ -32,7 +32,7 @@ public class AgendaPresenterTest {
   private AgendaView agendaViewMock;
   private AgendaPresenter agendaPresenter;
   @Captor
-  private ArgumentCaptor<List<SessionViewModel>> sessionViewModelArgumentCaptor;
+  private ArgumentCaptor<List<ArrayList<SessionViewModel>>> sessionViewModelArgumentCaptor;
 
   @Before
   public void setUp() throws Exception {
@@ -43,8 +43,8 @@ public class AgendaPresenterTest {
     agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock);
   }
 
-  @Test
-  public void shouldCreateSessionViewModel(){
+  @Test //Maybe need better name
+  public void shouldCreateSessionViewModelByDate(){
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -63,13 +63,16 @@ public class AgendaPresenterTest {
       }
     }).when(apiClientMock).get(eq("https://intense-fire-9666.firebaseio.com/"), any(APIClientCallback.class));
 
-    agendaPresenter.renderSessions();
+    agendaPresenter.fetchSessions();
 
     verify(agendaViewMock).render(sessionViewModelArgumentCaptor.capture());
 
-    final List<SessionViewModel> sessions = sessionViewModelArgumentCaptor.getValue();
+    final List<ArrayList<SessionViewModel>> sessions = sessionViewModelArgumentCaptor.getValue();
 
-    assertThat("Craft", is(sessions.get(0).getName()));
+    assertThat("Craft", is(sessions.get(0).get(0).getName()));
+    assertThat("Keynote", is(sessions.get(1).get(0).getName()));
     assertThat(2, is(sessions.size()));
+    assertThat(1, is(sessions.get(0).size()));
+    assertThat(1, is(sessions.get(1).size()));
   }
 }

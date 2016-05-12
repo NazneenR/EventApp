@@ -1,5 +1,8 @@
 package thoughtworks.eventapp.viewmodel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormatter;
@@ -9,12 +12,28 @@ import java.util.concurrent.TimeUnit;
 
 import thoughtworks.eventapp.model.Session;
 
-public class SessionViewModel {
-  private final Session session;
+public class SessionViewModel implements Parcelable {
+  private Session session;
 
   public SessionViewModel(Session session) {
     this.session = session;
   }
+
+  protected SessionViewModel(Parcel in) {
+    this.session = in.readParcelable(getClass().getClassLoader());
+  }
+
+  public static final Creator<SessionViewModel> CREATOR = new Creator<SessionViewModel>() {
+    @Override
+    public SessionViewModel createFromParcel(Parcel in) {
+      return new SessionViewModel(in);
+    }
+
+    @Override
+    public SessionViewModel[] newArray(int size) {
+      return new SessionViewModel[size];
+    }
+  };
 
   public String getDisplayTime() {
     DateTimeFormatter dateTimeParser = ISODateTimeFormat.dateTimeParser();
@@ -50,5 +69,15 @@ public class SessionViewModel {
 
   public String getName(){
     return session.getName();
+  }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel parcel, int i) {
+    parcel.writeParcelable(session, 0);
   }
 }
