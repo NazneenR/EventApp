@@ -51,8 +51,8 @@ public class AgendaPresenterTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Sessions sessions = new Sessions();
-        Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016", "", "");
-        Session session2 = new Session("Keynote", "By Roy Singham", "24-05-2016", "", "");
+        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", "2016-05-23T19:15:00+05:30", "2016-05-23T20:15:00+05:30");
+        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", "2016-05-24T17:15:00+05:30", "2016-05-24T18:15:00+05:30");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
