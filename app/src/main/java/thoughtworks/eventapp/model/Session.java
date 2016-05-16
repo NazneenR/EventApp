@@ -17,7 +17,7 @@ public class Session implements Parcelable {
   private Date startTime;
   @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
   private Date endTime;
-  private String category;
+  private Category category;
 
   public Session() {
   }
@@ -31,7 +31,7 @@ public class Session implements Parcelable {
     startTime = calendar.getTime();
     calendar.setTimeInMillis(in.readLong());
     endTime = calendar.getTime();
-    category = in.readString();
+    category = Enum.valueOf(Category.class, in.readString());
   }
 
   public static final Creator<Session> CREATOR = new Creator<Session>() {
@@ -54,7 +54,7 @@ public class Session implements Parcelable {
     return endTime;
   }
 
-  public Session(String name, String description, String date, Date startTime, Date endTime, String category) {
+  public Session(String name, String description, String date, Date startTime, Date endTime, Category category) {
     this.name = name;
     this.description = description;
     this.date = date;
@@ -87,10 +87,10 @@ public class Session implements Parcelable {
     parcel.writeString(date);
     parcel.writeLong(startTime.getTime());
     parcel.writeLong(endTime.getTime());
-    parcel.writeString(category);
+    parcel.writeString(category.name());
   }
 
-  public String getCategory() {
+  public Category getCategory() {
     return category;
   }
 }

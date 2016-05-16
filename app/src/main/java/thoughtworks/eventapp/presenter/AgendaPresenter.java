@@ -7,6 +7,7 @@ import java.util.List;
 
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
+import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Sessions;
 import thoughtworks.eventapp.view.AgendaView;
@@ -28,10 +29,9 @@ public class AgendaPresenter {
       @Override
       public void onSuccess(Sessions sessions) {
         List<ArrayList<SessionViewModel>> sessionViewModels = new ArrayList<>();
-        // TODO: remove the date hardcoding
-        sessionViewModels.add(getSessionViewModelsByCategory(sessions, "Create"));
-        sessionViewModels.add(getSessionViewModelsByCategory(sessions, "Aspire"));
-        sessionViewModels.add(getSessionViewModelsByCategory(sessions, "Belong"));
+        for (Category category : Category.values()) {
+          sessionViewModels.add(getSessionViewModelsByCategory(sessions, category));
+        }
         agendaView.render(sessionViewModels);
       }
 
@@ -43,7 +43,7 @@ public class AgendaPresenter {
   }
 
   @NonNull
-  private ArrayList<SessionViewModel> getSessionViewModelsByCategory(Sessions sessions, String category) {
+  private ArrayList<SessionViewModel> getSessionViewModelsByCategory(Sessions sessions, Category category) {
     ArrayList<SessionViewModel> sessionViewModels = new ArrayList<>();
     final List<Session> filteredSessions = sessions.filterByCategory(category);
     for (Session session : filteredSessions) {

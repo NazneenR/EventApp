@@ -21,6 +21,7 @@ import thoughtworks.eventapp.EventAppAndroidJUnitRunner;
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
+import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Sessions;
 import thoughtworks.eventapp.rule.ActivityUnitTestRule;
@@ -33,6 +34,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
+import static thoughtworks.eventapp.model.Category.ASPIRE;
+import static thoughtworks.eventapp.model.Category.CREATE;
 
 @RunWith(AndroidJUnit4.class)
 public class AgendaActivityTest {
@@ -56,8 +59,8 @@ public class AgendaActivityTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Sessions sessions = new Sessions();
-        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), "Aspire");
-        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), "Create");
+        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE);
+        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE);
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);

@@ -15,6 +15,7 @@ import java.util.List;
 import thoughtworks.eventapp.DateUtil;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
+import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Sessions;
 import thoughtworks.eventapp.view.AgendaView;
@@ -54,9 +55,9 @@ public class AgendaPresenterTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Sessions sessions = new Sessions();
-        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), "Create");
-        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), "Aspire");
-        Session session3 = new Session("Chalte Chalte", "Prize distribution", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), "Belong");
+        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE);
+        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE);
+        Session session3 = new Session("Chalte Chalte", "Prize distribution", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.BELONG);
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);

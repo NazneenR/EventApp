@@ -15,7 +15,7 @@ public class Sessions {
     return sessions;
   }
 
-  public List<Session> filterByCategory(String category) {
+  public List<Session> filterByCategory(Category category) {
     List<Session> filteredSessions = new ArrayList<>();
     for (Session session : sessions) {
       if (category.equals(session.getCategory())) filteredSessions.add(session);
