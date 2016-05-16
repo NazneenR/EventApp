@@ -19,8 +19,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     super(manager);
     this.sessionViewModels = sessionViewModels;
     //TODO: Remove hardcodings
-    titleList.add(0, "Day 1");
-    titleList.add(1, "Day 2");
+    titleList.add(0, "Create");
+    titleList.add(1, "Aspire");
+    titleList.add(2, "Belong");
   }
 
   @Override

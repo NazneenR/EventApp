@@ -9,8 +9,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import thoughtworks.eventapp.DateUtil;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Session;
@@ -25,6 +27,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static thoughtworks.eventapp.DateUtil.getDate;
 
 public class AgendaPresenterTest {
 
@@ -51,11 +54,13 @@ public class AgendaPresenterTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Sessions sessions = new Sessions();
-        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", "2016-05-23T19:15:00+05:30", "2016-05-23T20:15:00+05:30");
-        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", "2016-05-24T17:15:00+05:30", "2016-05-24T18:15:00+05:30");
+        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), "Create");
+        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), "Aspire");
+        Session session3 = new Session("Chalte Chalte", "Prize distribution", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), "Belong");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
+        sessionList.add(session3);
         sessions.setSessions(sessionList);
 
         callback.onSuccess(sessions);
@@ -71,8 +76,9 @@ public class AgendaPresenterTest {
 
     assertThat("Craft", is(sessions.get(0).get(0).getName()));
     assertThat("Keynote", is(sessions.get(1).get(0).getName()));
-    assertThat(2, is(sessions.size()));
+    assertThat(3, is(sessions.size()));
     assertThat(1, is(sessions.get(0).size()));
     assertThat(1, is(sessions.get(1).size()));
+    assertThat(1, is(sessions.get(2).size()));
   }
 }

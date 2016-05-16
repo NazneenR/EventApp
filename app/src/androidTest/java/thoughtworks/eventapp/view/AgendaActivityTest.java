@@ -11,7 +11,10 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import thoughtworks.eventapp.EventAppAndroidJUnitRunner;
@@ -38,7 +41,7 @@ public class AgendaActivityTest {
   @Rule
   public ActivityUnitTestRule<AgendaActivity> activityTestRule = new
       ActivityUnitTestRule<AgendaActivity>(getActivityProvider(), AgendaActivity.class, false, false) {
-  };
+      };
 
   @Before
   public void setup() throws Exception {
@@ -53,8 +56,8 @@ public class AgendaActivityTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Sessions sessions = new Sessions();
-        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", "2016-05-23T19:15:00+05:30", "2016-05-23T20:15:00+05:30");
-        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", "2016-05-24T17:15:00+05:30", "2016-05-24T18:15:00+05:30");
+        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), "Aspire");
+        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), "Create");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
@@ -97,4 +100,11 @@ public class AgendaActivityTest {
       }
     };
   }
+
+  //TODO: This method is duplicated with DateUtil.getDate(). Also SimpleDateFormat behaves differently for Junit and Android Test.
+  private Date getDate(String dateString) throws ParseException {
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+    return simpleDateFormat.parse(dateString);
+  }
+
 }

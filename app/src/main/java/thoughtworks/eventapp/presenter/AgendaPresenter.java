@@ -7,7 +7,6 @@ import java.util.List;
 
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
-import thoughtworks.eventapp.constant.Constants;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Sessions;
 import thoughtworks.eventapp.view.AgendaView;
@@ -15,6 +14,7 @@ import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 public class AgendaPresenter {
 
+  public final static String api = "https://intense-fire-9666.firebaseio.com/";
   private final APIClient apiClient;
   private final AgendaView agendaView;
 
@@ -24,13 +24,14 @@ public class AgendaPresenter {
   }
 
   public void fetchSessions(){
-    apiClient.get(Constants.api, new APIClientCallback<Sessions>() {
+    apiClient.get(api, new APIClientCallback<Sessions>() {
       @Override
       public void onSuccess(Sessions sessions) {
         List<ArrayList<SessionViewModel>> sessionViewModels = new ArrayList<>();
         // TODO: remove the date hardcoding
-        sessionViewModels.add(getSessionViewModelsByDate(sessions, "2016-05-23"));
-        sessionViewModels.add(getSessionViewModelsByDate(sessions, "2016-05-24"));
+        sessionViewModels.add(getSessionViewModelsByCategory(sessions, "Create"));
+        sessionViewModels.add(getSessionViewModelsByCategory(sessions, "Aspire"));
+        sessionViewModels.add(getSessionViewModelsByCategory(sessions, "Belong"));
         agendaView.render(sessionViewModels);
       }
 
@@ -42,9 +43,9 @@ public class AgendaPresenter {
   }
 
   @NonNull
-  private ArrayList<SessionViewModel> getSessionViewModelsByDate(Sessions sessions, String date) {
+  private ArrayList<SessionViewModel> getSessionViewModelsByCategory(Sessions sessions, String category) {
     ArrayList<SessionViewModel> sessionViewModels = new ArrayList<>();
-    final List<Session> filteredSessions = sessions.filterByDate(date);
+    final List<Session> filteredSessions = sessions.filterByCategory(category);
     for (Session session : filteredSessions) {
       sessionViewModels.add(new SessionViewModel(session));
     }

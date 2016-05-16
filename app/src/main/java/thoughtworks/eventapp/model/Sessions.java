@@ -11,15 +11,14 @@ public class Sessions {
   }
 
   //TODO: I do not like exposing this
-  public List<Session> getSessions(){
+  public List<Session> getSessions() {
     return sessions;
   }
 
-  public List<Session> filterByDate(String date) {
+  public List<Session> filterByCategory(String category) {
     List<Session> filteredSessions = new ArrayList<>();
     for (Session session : sessions) {
-      if(date.equals(session.getDate()))
-        filteredSessions.add(session);
+      if (category.equals(session.getCategory())) filteredSessions.add(session);
     }
     return filteredSessions;
   }

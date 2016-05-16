@@ -3,12 +3,21 @@ package thoughtworks.eventapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class Session implements Parcelable {
   private String name;
   private String description;
   private String date;
-  private String startTime;
-  private String endTime;
+  @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+  private Date startTime;
+  @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+  private Date endTime;
+  private String category;
 
   public Session() {
   }
@@ -17,8 +26,12 @@ public class Session implements Parcelable {
     name = in.readString();
     description = in.readString();
     date = in.readString();
-    startTime = in.readString();
-    endTime = in.readString();
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeInMillis(in.readLong());
+    startTime = calendar.getTime();
+    calendar.setTimeInMillis(in.readLong());
+    endTime = calendar.getTime();
+    category = in.readString();
   }
 
   public static final Creator<Session> CREATOR = new Creator<Session>() {
@@ -33,21 +46,21 @@ public class Session implements Parcelable {
     }
   };
 
-  public String getStartTime() {
+  public Date getStartTime() {
     return startTime;
   }
 
-  public String getEndTime() {
+  public Date getEndTime() {
     return endTime;
   }
 
-  public Session(String name, String description, String date, String startTime, String endTime) {
+  public Session(String name, String description, String date, Date startTime, Date endTime, String category) {
     this.name = name;
     this.description = description;
     this.date = date;
     this.startTime = startTime;
     this.endTime = endTime;
-
+    this.category = category;
   }
 
   public String getDate() {
@@ -72,7 +85,12 @@ public class Session implements Parcelable {
     parcel.writeString(name);
     parcel.writeString(description);
     parcel.writeString(date);
-    parcel.writeString(startTime);
-    parcel.writeString(endTime);
+    parcel.writeLong(startTime.getTime());
+    parcel.writeLong(endTime.getTime());
+    parcel.writeString(category);
+  }
+
+  public String getCategory() {
+    return category;
   }
 }

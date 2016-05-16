@@ -11,16 +11,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SessionsTest {
 
   @Test
-  public void filterSessionsByDate() {
+  public void filterSessionsByCategory() {
     Sessions sessions = new Sessions();
-    Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016", "", "");
-    Session session2 = new Session("Craft", "Try your hand at craft", "24-05-2016", "", "");
+    Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016", null, null, "Belong");
+    Session session2 = new Session("Craft", "Try your hand at craft", "24-05-2016", null, null, "Create");
     List<Session> sessionList = new ArrayList<>();
     sessionList.add(session1);
     sessionList.add(session2);
     sessions.setSessions(sessionList);
 
-    final List<Session> filteredSessions = sessions.filterByDate("24-05-2016");
+    final List<Session> filteredSessions = sessions.filterByCategory("Create");
 
     assertThat(filteredSessions.size(), is(1));
     assertThat(filteredSessions.get(0), is(session2));
