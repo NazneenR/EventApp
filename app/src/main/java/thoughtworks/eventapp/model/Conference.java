@@ -3,7 +3,7 @@ package thoughtworks.eventapp.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sessions {
+public class Conference {
   private List<Session> sessions;
 
   public void setSessions(List<Session> sessions) {
