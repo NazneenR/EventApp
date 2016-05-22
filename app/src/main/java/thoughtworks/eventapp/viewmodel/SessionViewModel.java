@@ -15,16 +15,20 @@ public class SessionViewModel {
   }
 
   public String formattedSessionTime() {
-    StringBuilder builder = new StringBuilder();
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
     Date startTime = session.getStartTime();
     Date endTime = session.getEndTime();
     long durationInMinutes = TimeUnit.MILLISECONDS.toMinutes(endTime.getTime() - startTime.getTime());
-    long numberOfHours = durationInMinutes / 60;
+    String formattedDuration = formattedDuration(durationInMinutes);
+    return String.format("%s - %s (%s)", dateFormat.format(startTime), dateFormat.format(endTime),
+                          formattedDuration);
+  }
 
-    builder.append(dateFormat.format(startTime)).append(" - ").append(dateFormat.format(endTime))
-            .append(" (").append(numberOfHours).append("h").append(")");
-//    long numberOfMinutes = durationInMinutes % 60;
-    return builder.toString();
+  private String formattedDuration(long durationInMinutes){
+    long numberOfHours = durationInMinutes / 60;
+    long numberOfMinutes = durationInMinutes % 60;
+    String formattedHours = numberOfHours==0?"":numberOfHours+"h ";
+    String formattedMinutes = numberOfMinutes==0?"":numberOfMinutes+"min";
+    return (formattedHours + formattedMinutes).trim();
   }
 }
