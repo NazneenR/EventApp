@@ -7,4 +7,6 @@ import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 public interface AgendaView {
   void render(List<ArrayList<SessionViewModel>> sessions);
+  void showProgressDialog();
+  void dismissProgressDialog();
 }

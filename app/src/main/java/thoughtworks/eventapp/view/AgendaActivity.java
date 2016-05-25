@@ -1,5 +1,6 @@
 package thoughtworks.eventapp.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -19,6 +20,7 @@ import thoughtworks.eventapp.viewmodel.SessionViewModel;
 public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
   private ViewPager viewPager;
+  private ProgressDialog progressDialog;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,19 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
   public void render(List<ArrayList<SessionViewModel>> sessionViewModels) {
     setupViewPager(sessionViewModels);
     setupTabs();
+  }
+
+  @Override
+  public void showProgressDialog() {
+    progressDialog = new ProgressDialog(this);
+    progressDialog.setMessage(getResources().getString(R.string.loading));
+    progressDialog.setCancelable(false);
+    progressDialog.show();
+  }
+
+  @Override
+  public void dismissProgressDialog() {
+    progressDialog.dismiss();
   }
 
   private void setupTabs() {

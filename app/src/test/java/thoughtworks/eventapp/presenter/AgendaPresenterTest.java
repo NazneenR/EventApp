@@ -4,15 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import thoughtworks.eventapp.DateUtil;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Category;
@@ -26,8 +25,8 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static thoughtworks.eventapp.DateUtil.getDate;
 
 public class AgendaPresenterTest {
@@ -71,7 +70,10 @@ public class AgendaPresenterTest {
 
     agendaPresenter.fetchSessions();
 
-    verify(agendaViewMock).render(sessionViewModelArgumentCaptor.capture());
+    InOrder inOrder = inOrder(agendaViewMock);
+    inOrder.verify(agendaViewMock).showProgressDialog();
+    inOrder.verify(agendaViewMock).render(sessionViewModelArgumentCaptor.capture());
+    inOrder.verify(agendaViewMock).dismissProgressDialog();
 
     final List<ArrayList<SessionViewModel>> sessions = sessionViewModelArgumentCaptor.getValue();
 

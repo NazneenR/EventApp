@@ -25,6 +25,7 @@ public class AgendaPresenter {
   }
 
   public void fetchSessions(){
+    agendaView.showProgressDialog();
     apiClient.get(api, new APIClientCallback<Sessions>() {
       @Override
       public void onSuccess(Sessions sessions) {
@@ -33,6 +34,7 @@ public class AgendaPresenter {
           sessionViewModels.add(getSessionViewModelsByCategory(sessions, category));
         }
         agendaView.render(sessionViewModels);
+        agendaView.dismissProgressDialog();
       }
 
       @Override
