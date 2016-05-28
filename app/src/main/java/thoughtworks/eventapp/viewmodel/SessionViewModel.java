@@ -1,7 +1,6 @@
 package thoughtworks.eventapp.viewmodel;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -30,5 +29,9 @@ public class SessionViewModel {
     String formattedHours = numberOfHours==0?"":numberOfHours+"h ";
     String formattedMinutes = numberOfMinutes==0?"":numberOfMinutes+"min";
     return (formattedHours + formattedMinutes).trim();
+  }
+
+  public String getName() {
+    return session.getName();
   }
 }

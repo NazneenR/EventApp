@@ -3,14 +3,13 @@ package thoughtworks.eventapp.viewmodel;
 import org.junit.Test;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
+import thoughtworks.eventapp.testdata.TestDataCreator;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static thoughtworks.eventapp.model.Category.BELONG;
 
 public class SessionViewModelTest {
 
@@ -29,13 +28,19 @@ public class SessionViewModelTest {
     verifyFormattedSessionTime("03:30:00+05:30", "04:15:00+05:30", "03:30 - 04:15 (45min)");
   }
 
+  @Test
+  public void showName() throws ParseException {
+    SessionViewModel sessionViewModel = createSessionViewModel("03:30:00+05:30", "04:15:00+05:30");
+    assertThat(sessionViewModel.getName(), is("Craft"));
+  }
+
   private void verifyFormattedSessionTime(String startTimeAsString, String endTimeAsString, String formattedSessionTime) throws ParseException {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
-    Date startTime = simpleDateFormat.parse("2016-05-23T"+startTimeAsString);
-    Date endTime = simpleDateFormat.parse("2016-05-23T"+endTimeAsString);
-    Session session = new Session("Craft", "Description of crafts", "2016-05-23",
-        startTime, endTime, Category.BELONG);
-    SessionViewModel sessionViewModel = new SessionViewModel(session);
+    SessionViewModel sessionViewModel = createSessionViewModel(startTimeAsString, endTimeAsString);
     assertThat(sessionViewModel.formattedSessionTime(),is(formattedSessionTime));
+  }
+
+  private SessionViewModel createSessionViewModel(String startTimeAsString, String endTimeAsString) throws ParseException {
+    Session session = TestDataCreator.sessionFrom("Craft", BELONG, startTimeAsString, endTimeAsString);
+    return new SessionViewModel(session);
   }
 }
