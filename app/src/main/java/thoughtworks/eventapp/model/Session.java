@@ -5,11 +5,12 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.orm.SugarRecord;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class Session implements Parcelable {
+public class Session extends SugarRecord<Session> implements Parcelable {
   private String name;
   private String description;
   private String date;

@@ -63,4 +63,16 @@ public class SessionViewModel implements Parcelable {
     String formattedMinutes = numberOfMinutes==0?"":numberOfMinutes+"min";
     return (formattedHours + formattedMinutes).trim();
   }
+
+  public Date getStartTime() {
+   return session.getStartTime();
+  }
+
+  public Date getEndTime() {
+    return session.getEndTime();
+  }
+
+  public void addtoDB() {
+    session.save();
+  }
 }
