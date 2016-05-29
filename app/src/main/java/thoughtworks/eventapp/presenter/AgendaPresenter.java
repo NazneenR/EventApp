@@ -2,6 +2,8 @@ package thoughtworks.eventapp.presenter;
 
 import thoughtworks.eventapp.apiclient.APIClient;
 
+import static thoughtworks.eventapp.Constants.CONFERENCE_ENDPOINT;
+
 public class AgendaPresenter {
   private final APIClient apiClient;
 
@@ -10,6 +12,6 @@ public class AgendaPresenter {
   }
 
   public void fetchEvents() {
-    apiClient.get(null, null);
+    apiClient.get(CONFERENCE_ENDPOINT, null);
   }
 }
