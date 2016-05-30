@@ -11,7 +11,7 @@ import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
-import thoughtworks.eventapp.model.Sessions;
+import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.view.AgendaView;
 import thoughtworks.eventapp.viewmodel.SessionViewModel;
@@ -31,20 +31,20 @@ public class AgendaPresenter {
 
   public void fetchSessions(){
     agendaView.showProgressDialog();
-    apiClient.get(api, new APIClientCallback<Sessions>() {
+    apiClient.get(api, new APIClientCallback<Conference>() {
       @Override
-      public void onSuccess(Sessions sessions) {
+      public void onSuccess(Conference conference) {
         List<ArrayList<SessionViewModel>> sessionViewModels = new ArrayList<>();
         for (Category category : Category.values()) {
-          sessionViewModels.add(getSessionViewModelsByCategory(sessions, category));
+          sessionViewModels.add(getSessionViewModelsByCategory(conference, category));
         }
         agendaView.render(sessionViewModels);
         agendaView.dismissProgressDialog();
       }
 
       @Override
-      public Class<Sessions> getClassOfType() {
-        return Sessions.class;
+      public Class<Conference> getClassOfType() {
+        return Conference.class;
       }
     });
   }
@@ -66,9 +66,9 @@ public class AgendaPresenter {
   }
 
   @NonNull
-  private ArrayList<SessionViewModel> getSessionViewModelsByCategory(Sessions sessions, Category category) {
+  private ArrayList<SessionViewModel> getSessionViewModelsByCategory(Conference conference, Category category) {
     ArrayList<SessionViewModel> sessionViewModels = new ArrayList<>();
-    final List<Session> filteredSessions = sessions.filterByCategory(category);
+    final List<Session> filteredSessions = conference.filterByCategory(category);
     for (Session session : filteredSessions) {
       sessionViewModels.add(new SessionViewModel(session));
     }

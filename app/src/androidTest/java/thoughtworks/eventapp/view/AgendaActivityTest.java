@@ -21,9 +21,8 @@ import thoughtworks.eventapp.EventAppAndroidJUnitRunner;
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
-import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
-import thoughtworks.eventapp.model.Sessions;
+import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.rule.ActivityUnitTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -58,15 +57,15 @@ public class AgendaActivityTest {
       public Object answer(InvocationOnMock invocation) throws Throwable {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
-        Sessions sessions = new Sessions();
+        Conference conference = new Conference();
         Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE);
         Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE);
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
-        sessions.setSessions(sessionList);
+        conference.setSessions(sessionList);
 
-        callback.onSuccess(sessions);
+        callback.onSuccess(conference);
         return null;
       }
     }).when(apiClient).get(eq("https://intense-fire-9666.firebaseio.com/"), any(APIClientCallback.class));

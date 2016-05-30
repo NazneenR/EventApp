@@ -17,7 +17,7 @@ import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
-import thoughtworks.eventapp.model.Sessions;
+import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.view.AgendaView;
 import thoughtworks.eventapp.viewmodel.SessionViewModel;
@@ -58,7 +58,7 @@ public class AgendaPresenterTest {
       public Object answer(InvocationOnMock invocation) throws Throwable {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
-        Sessions sessions = new Sessions();
+        Conference sessions = new Conference();
         Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23",
             getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE);
         Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24",
