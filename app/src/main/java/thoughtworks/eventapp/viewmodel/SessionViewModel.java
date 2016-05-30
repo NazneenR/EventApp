@@ -33,11 +33,11 @@ public class SessionViewModel implements Parcelable {
   };
 
   public String getDisplayTime() {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aaa");
     Date startTime = session.getStartTime();
     Date endTime = session.getEndTime();
-    long durationInMinutes = TimeUnit.MILLISECONDS.toMinutes(endTime.getTime() - startTime.getTime());
-    String formattedDuration = formattedDuration(durationInMinutes);
+    String formattedDuration = getDisplayDuration();
+
+    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aaa");
     return String.format("%s - %s (%s)", dateFormat.format(startTime), dateFormat.format(endTime),
         formattedDuration);
   }
@@ -56,7 +56,8 @@ public class SessionViewModel implements Parcelable {
     parcel.writeParcelable(session, 0);
   }
 
-  private String formattedDuration(long durationInMinutes){
+  private String getDisplayDuration(){
+    long durationInMinutes = TimeUnit.MILLISECONDS.toMinutes(session.getEndTime().getTime() - session.getStartTime().getTime());
     long numberOfHours = durationInMinutes / 60;
     long numberOfMinutes = durationInMinutes % 60;
     String formattedHours = numberOfHours==0?"":numberOfHours+"h ";

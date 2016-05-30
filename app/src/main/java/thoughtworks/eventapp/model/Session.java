@@ -76,6 +76,10 @@ public class Session extends SugarRecord<Session> implements Parcelable {
     return name;
   }
 
+  public Category getCategory() {
+    return category;
+  }
+
   @Override
   public int describeContents() {
     return 0;
@@ -91,7 +95,4 @@ public class Session extends SugarRecord<Session> implements Parcelable {
     parcel.writeString(category.name());
   }
 
-  public Category getCategory() {
-    return category;
-  }
 }
