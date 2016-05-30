@@ -1,12 +1,9 @@
 package thoughtworks.eventapp.view;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import thoughtworks.eventapp.viewmodel.SessionViewModel;
+import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 
 public interface AgendaView {
-  void render(List<ArrayList<SessionViewModel>> sessions);
+  void render(ConferenceViewModel conferenceViewModel);
   void showProgressDialog();
   void dismissProgressDialog();
   void showConflictPopup();

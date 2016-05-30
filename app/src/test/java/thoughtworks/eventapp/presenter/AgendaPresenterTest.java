@@ -16,10 +16,11 @@ import java.util.List;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Category;
-import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Conference;
+import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.view.AgendaView;
+import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 import static org.hamcrest.core.Is.is;
@@ -39,7 +40,7 @@ public class AgendaPresenterTest {
   private AgendaView agendaViewMock;
   private AgendaPresenter agendaPresenter;
   @Captor
-  private ArgumentCaptor<List<ArrayList<SessionViewModel>>> sessionViewModelArgumentCaptor;
+  private ArgumentCaptor<ConferenceViewModel> sessionViewModelArgumentCaptor;
   private SessionRepository sessionRepository;
 
   @Before
@@ -51,8 +52,8 @@ public class AgendaPresenterTest {
     agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock, sessionRepository);
   }
 
-  @Test //Maybe need better name
-  public void shouldCreateSessionViewModelByDate(){
+  @Test
+  public void shouldCallRenderWithViewModelAfterFetchingData(){
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -83,14 +84,14 @@ public class AgendaPresenterTest {
     inOrder.verify(agendaViewMock).render(sessionViewModelArgumentCaptor.capture());
     inOrder.verify(agendaViewMock).dismissProgressDialog();
 
-    final List<ArrayList<SessionViewModel>> sessions = sessionViewModelArgumentCaptor.getValue();
+    final ConferenceViewModel conferenceViewModel = sessionViewModelArgumentCaptor.getValue();
 
-    assertThat("Craft", is(sessions.get(0).get(0).getName()));
-    assertThat("Keynote", is(sessions.get(1).get(0).getName()));
-    assertThat(3, is(sessions.size()));
-    assertThat(1, is(sessions.get(0).size()));
-    assertThat(1, is(sessions.get(1).size()));
-    assertThat(1, is(sessions.get(2).size()));
+    assertThat("Craft", is(conferenceViewModel.sessionsAt(0).get(0).getName()));
+    assertThat("Keynote", is(conferenceViewModel.sessionsAt(1).get(0).getName()));
+    assertThat(3, is(conferenceViewModel.size()));
+    assertThat(1, is(conferenceViewModel.sessionsAt(0).size()));
+    assertThat(1, is(conferenceViewModel.sessionsAt(1).size()));
+    assertThat(1, is(conferenceViewModel.sessionsAt(2).size()));
   }
 
   @Test

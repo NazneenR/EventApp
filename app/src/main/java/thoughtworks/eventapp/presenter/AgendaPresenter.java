@@ -1,19 +1,19 @@
 package thoughtworks.eventapp.presenter;
 
-import android.support.annotation.NonNull;
-
 import org.joda.time.Interval;
-import java.util.ArrayList;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
 import thoughtworks.eventapp.model.Category;
-import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Conference;
+import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.view.AgendaView;
+import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 public class AgendaPresenter {
@@ -34,11 +34,8 @@ public class AgendaPresenter {
     apiClient.get(api, new APIClientCallback<Conference>() {
       @Override
       public void onSuccess(Conference conference) {
-        List<ArrayList<SessionViewModel>> sessionViewModels = new ArrayList<>();
-        for (Category category : Category.values()) {
-          sessionViewModels.add(getSessionViewModelsByCategory(conference, category));
-        }
-        agendaView.render(sessionViewModels);
+        ConferenceViewModel conferenceViewModel = ConferenceViewModel.createFrom(Arrays.asList(Category.values()), conference);
+        agendaView.render(conferenceViewModel);
         agendaView.dismissProgressDialog();
       }
 
@@ -65,13 +62,4 @@ public class AgendaPresenter {
     }
   }
 
-  @NonNull
-  private ArrayList<SessionViewModel> getSessionViewModelsByCategory(Conference conference, Category category) {
-    ArrayList<SessionViewModel> sessionViewModels = new ArrayList<>();
-    final List<Session> filteredSessions = conference.filterByCategory(category);
-    for (Session session : filteredSessions) {
-      sessionViewModels.add(new SessionViewModel(session));
-    }
-    return sessionViewModels;
-  }
 }

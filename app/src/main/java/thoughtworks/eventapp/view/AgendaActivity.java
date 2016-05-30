@@ -8,15 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.adapter.ViewPagerAdapter;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.presenter.AgendaPresenter;
 import thoughtworks.eventapp.repository.SessionRepository;
-import thoughtworks.eventapp.viewmodel.SessionViewModel;
+import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 
 public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
@@ -41,8 +38,8 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
   }
 
   @Override
-  public void render(List<ArrayList<SessionViewModel>> sessionViewModels) {
-    setupViewPager(sessionViewModels);
+  public void render(ConferenceViewModel conferenceViewModel) {
+    setupViewPager(conferenceViewModel);
     setupTabs();
   }
 
@@ -74,9 +71,9 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
     tabLayout.setupWithViewPager(viewPager);
   }
 
-  private void setupViewPager(List<ArrayList<SessionViewModel>> sessionViewModels) {
+  private void setupViewPager(ConferenceViewModel conferenceViewModel) {
     viewPager = (ViewPager) findViewById(R.id.viewpager);
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), sessionViewModels);
+    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), conferenceViewModel);
     viewPager.setAdapter(adapter);
   }
 
