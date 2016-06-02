@@ -81,11 +81,18 @@ public class SessionViewModel implements Parcelable {
     SessionViewModel that = (SessionViewModel) o;
 
     return session != null ? session.equals(that.session) : that.session == null;
-
   }
 
   @Override
   public int hashCode() {
     return session != null ? session.hashCode() : 0;
+  }
+
+  public String getDescription() {
+    return session.getDescription();
+  }
+
+  public String getLocation() {
+    return session.getLocation();
   }
 }

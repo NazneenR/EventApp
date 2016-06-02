@@ -19,12 +19,14 @@ public class Session extends SugarRecord<Session> implements Parcelable {
   @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
   private Date endTime;
   private Category category;
+  private String location;
 
   public Session() {
   }
 
   protected Session(Parcel in) {
     name = in.readString();
+    location = in.readString();
     description = in.readString();
     date = in.readString();
     Calendar calendar = Calendar.getInstance();
@@ -55,13 +57,18 @@ public class Session extends SugarRecord<Session> implements Parcelable {
     return endTime;
   }
 
-  public Session(String name, String description, String date, Date startTime, Date endTime, Category category) {
+  public String getLocation() {
+    return location;
+  }
+
+  public Session(String name, String description, String date, Date startTime, Date endTime, Category category, String location) {
     this.name = name;
     this.description = description;
     this.date = date;
     this.startTime = startTime;
     this.endTime = endTime;
     this.category = category;
+    this.location = location;
   }
 
   public String getDate() {
@@ -90,6 +97,7 @@ public class Session extends SugarRecord<Session> implements Parcelable {
     parcel.writeString(name);
     parcel.writeString(description);
     parcel.writeString(date);
+    parcel.writeString(location);
     parcel.writeLong(startTime.getTime());
     parcel.writeLong(endTime.getTime());
     parcel.writeString(category.name());
@@ -103,6 +111,7 @@ public class Session extends SugarRecord<Session> implements Parcelable {
     Session session = (Session) o;
 
     if (name != null ? !name.equals(session.name) : session.name != null) return false;
+    if (location != null ? !location.equals(session.location) : session.location != null) return false;
     if (description != null ? !description.equals(session.description) : session.description != null)
       return false;
     if (date != null ? !date.equals(session.date) : session.date != null) return false;
@@ -117,6 +126,7 @@ public class Session extends SugarRecord<Session> implements Parcelable {
   public int hashCode() {
     int result = name != null ? name.hashCode() : 0;
     result = 31 * result + (description != null ? description.hashCode() : 0);
+    result = 31 * result + (location != null ? location.hashCode() : 0);
     result = 31 * result + (date != null ? date.hashCode() : 0);
     result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
     result = 31 * result + (endTime != null ? endTime.hashCode() : 0);

@@ -43,20 +43,23 @@ public class AgendaAdapter extends BaseAdapter {
     if(convertView == null){
       convertView = inflater.inflate(R.layout.session, parent, false);
       viewSource = new ViewSource();
-      viewSource.timeTextView = (TextView) convertView.findViewById(R.id.timeText);
-      viewSource.titleTextView = (TextView) convertView.findViewById(R.id.titleText);
+      viewSource.date = (TextView) convertView.findViewById(R.id.date);
+      viewSource.location = (TextView) convertView.findViewById(R.id.location);
+      viewSource.title = (TextView) convertView.findViewById(R.id.title);
       convertView.setTag(viewSource);
     }
 
     viewSource = (ViewSource) convertView.getTag();
     SessionViewModel session = sessions.get(position);
-    viewSource.timeTextView.setText(session.getDisplayTime());
-    viewSource.titleTextView.setText(session.getName());
+    viewSource.date.setText(session.getDisplayTime());
+    viewSource.location.setText(session.getLocation());
+    viewSource.title.setText(session.getName());
     return convertView;
   }
 
   protected class ViewSource {
-    TextView timeTextView;
-    TextView titleTextView;
+    TextView date;
+    TextView title;
+    TextView location;
   }
 }

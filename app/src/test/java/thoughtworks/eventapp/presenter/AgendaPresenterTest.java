@@ -54,9 +54,9 @@ public class AgendaPresenterTest {
     agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock, sessionRepository);
 
     sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-23",
-        getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE);
+        getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
     sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-23",
-        getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE);
+        getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Pre Function Area");
     mockAPIClient();
 
   }
@@ -110,7 +110,7 @@ public class AgendaPresenterTest {
   @Test
   public void showSaveSessionIfNoConflictingSessionFound() throws ParseException {
     sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-24",
-        getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE);
+        getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Ballroom");
     agendaPresenter.fetchSessions();
 
     List<Session> savedSessions = new ArrayList<>();
