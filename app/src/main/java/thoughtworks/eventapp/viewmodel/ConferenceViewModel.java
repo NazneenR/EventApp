@@ -48,4 +48,8 @@ public class ConferenceViewModel {
   public int size() {
     return categories.size();
   }
+
+  public int indexOf(Category category) {
+    return categories.indexOf(category);
+  }
 }

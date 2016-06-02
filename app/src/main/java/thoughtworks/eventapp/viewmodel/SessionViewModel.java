@@ -73,7 +73,19 @@ public class SessionViewModel implements Parcelable {
     return session.getEndTime();
   }
 
-  public void addtoDB() {
-    session.save();
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    SessionViewModel that = (SessionViewModel) o;
+
+    return session != null ? session.equals(that.session) : that.session == null;
+
+  }
+
+  @Override
+  public int hashCode() {
+    return session != null ? session.hashCode() : 0;
   }
 }

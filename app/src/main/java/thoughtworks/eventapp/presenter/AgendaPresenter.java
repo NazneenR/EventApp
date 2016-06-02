@@ -22,6 +22,8 @@ public class AgendaPresenter {
   private final APIClient apiClient;
   private final AgendaView agendaView;
   private final SessionRepository sessionRepository;
+  private Conference conference;
+  private ConferenceViewModel conferenceViewModel;
 
   public AgendaPresenter(APIClient apiClient, AgendaView agendaView, SessionRepository sessionRepository) {
     this.apiClient = apiClient;
@@ -32,9 +34,11 @@ public class AgendaPresenter {
   public void fetchSessions(){
     agendaView.showProgressDialog();
     apiClient.get(api, new APIClientCallback<Conference>() {
+
       @Override
       public void onSuccess(Conference conference) {
-        ConferenceViewModel conferenceViewModel = ConferenceViewModel.createFrom(Arrays.asList(Category.values()), conference);
+        AgendaPresenter.this.conference = conference;
+        conferenceViewModel = ConferenceViewModel.createFrom(Arrays.asList(Category.values()), conference);
         agendaView.render(conferenceViewModel);
         agendaView.dismissProgressDialog();
       }
@@ -46,10 +50,15 @@ public class AgendaPresenter {
     });
   }
 
-  public void addSession(SessionViewModel sessionViewModel){
+  public void addSession(SessionViewModel sessionViewModel, Category category){
+    Session sessionToAdd = mapToSession(sessionViewModel, category);
+    addSession(sessionToAdd);
+  }
+
+  private void addSession(Session sessionToAdd) {
     List<Session> allSavedSessions = sessionRepository.getSavedSessions();
-    final Date startTimeOfNewSession = sessionViewModel.getStartTime();
-    final Date endTimeOfNewSession = sessionViewModel.getEndTime();
+    final Date startTimeOfNewSession = sessionToAdd.getStartTime();
+    final Date endTimeOfNewSession = sessionToAdd.getEndTime();
     for (Session session : allSavedSessions) {
       Interval interval1 = new Interval(startTimeOfNewSession.getTime(), endTimeOfNewSession.getTime());
       Interval interval2 = new Interval(session.getStartTime().getTime(), session.getEndTime().getTime());
@@ -57,9 +66,16 @@ public class AgendaPresenter {
         agendaView.showConflictPopup();
       } else {
         agendaView.showSessionAddedSuccessfully();
-        sessionRepository.saveSession(sessionViewModel);
+        sessionRepository.saveSession(sessionToAdd);
       }
     }
+  }
+
+  private Session mapToSession(SessionViewModel sessionViewModel, Category category) {
+    int categoryIndex = conferenceViewModel.indexOf(category);
+    List<SessionViewModel> sessionViewModels = conferenceViewModel.sessionsAt(categoryIndex);
+    int indexOfSessionViewModel = sessionViewModels.indexOf(sessionViewModel);
+    return conference.filterByCategory(category).get(indexOfSessionViewModel);
   }
 
 }
