@@ -1,4 +1,4 @@
-package thoughtworks.eventapp.adapter;
+package thoughtworks.eventapp.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;

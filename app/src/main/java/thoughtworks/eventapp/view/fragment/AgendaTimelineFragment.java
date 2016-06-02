@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import java.util.ArrayList;
 import thoughtworks.eventapp.R;
-import thoughtworks.eventapp.adapter.AgendaAdapter;
+import thoughtworks.eventapp.view.AgendaAdapter;
 import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 public class AgendaTimelineFragment extends Fragment {

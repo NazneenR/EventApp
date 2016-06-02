@@ -1,4 +1,4 @@
-package thoughtworks.eventapp.adapter;
+package thoughtworks.eventapp.view;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     final AgendaTimelineFragment agendaTimelineFragment = new AgendaTimelineFragment();
     Bundle bundle = new Bundle();
     //TODO: Extract into constant
-    bundle.putParcelableArrayList("sessionViewModels", (ArrayList<? extends Parcelable>) conferenceViewModel.sessionsAt(0));
+    bundle.putParcelableArrayList("sessionViewModels", (ArrayList<? extends Parcelable>) conferenceViewModel.sessionsAt(position));
     agendaTimelineFragment.setArguments(bundle);
     return agendaTimelineFragment;
   }

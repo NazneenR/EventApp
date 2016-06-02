@@ -72,8 +72,7 @@ public class AgendaActivityTest {
 
     activityTestRule.launchActivity(new Intent());
 
-    onView(withId(R.id.viewpager))
-        .perform(swipeLeft());
+    onView(withId(R.id.viewpager)).perform(swipeLeft());
   }
 
   @NonNull

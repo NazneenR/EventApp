@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import thoughtworks.eventapp.R;
-import thoughtworks.eventapp.adapter.ViewPagerAdapter;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.presenter.AgendaPresenter;
 import thoughtworks.eventapp.repository.SessionRepository;
@@ -17,7 +16,6 @@ import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 
 public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
-  private ViewPager viewPager;
   private ProgressDialog progressDialog;
 
   @Override
@@ -39,8 +37,7 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
   @Override
   public void render(ConferenceViewModel conferenceViewModel) {
-    setupViewPager(conferenceViewModel);
-    setupTabs();
+    setupTabs(conferenceViewModel);
   }
 
   @Override
@@ -66,15 +63,12 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
 
   }
 
-  private void setupTabs() {
+  private void setupTabs(ConferenceViewModel conferenceViewModel) {
     TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-    tabLayout.setupWithViewPager(viewPager);
-  }
-
-  private void setupViewPager(ConferenceViewModel conferenceViewModel) {
-    viewPager = (ViewPager) findViewById(R.id.viewpager);
+    ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
     ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), conferenceViewModel);
     viewPager.setAdapter(adapter);
+    tabLayout.setupWithViewPager(viewPager);
   }
 
   private void setupToolbar() {
