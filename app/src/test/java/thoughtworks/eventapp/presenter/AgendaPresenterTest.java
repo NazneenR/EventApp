@@ -69,10 +69,11 @@ public class AgendaPresenterTest {
   }
 
   @Test
-  public void showProgressDialogRenderResponseAndHideDialog(){
+  public void showProgressDialogRenderResponseAndHideDialogInOrder(){
     agendaPresenter.fetchEvents();
-    InOrder inOrder = inOrder(mockAgendaView);
+    InOrder inOrder = inOrder(mockAgendaView, mockApiClient);
     inOrder.verify(mockAgendaView).showProgressDialog();
+    inOrder.verify(mockApiClient).get(eq(CONFERENCE_ENDPOINT), any(APIClientCallback.class));
     inOrder.verify(mockAgendaView).render(conferenceVMCaptor.capture());
     inOrder.verify(mockAgendaView).dismissProgressDialog();
 
