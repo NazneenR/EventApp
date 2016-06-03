@@ -21,7 +21,9 @@ public class AgendaPresenter {
     apiClient.get(CONFERENCE_ENDPOINT, new APIClientCallback<Conference>() {
       @Override
       public void onSuccess(Conference conference) {
+        agendaView.showProgressDialog();
         agendaView.render(new ConferenceViewModel(conference));
+        agendaView.dismissProgressDialog();
       }
 
       @Override

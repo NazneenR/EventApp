@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InOrder;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.inOrder;
 import static thoughtworks.eventapp.Constants.CONFERENCE_ENDPOINT;
 import static thoughtworks.eventapp.testdata.TestDataCreator.defaultConference;
 
@@ -64,5 +66,15 @@ public class AgendaPresenterTest {
     assertThat(conferenceViewModel.categoryViewModels().size(), is(3));
     assertThat(conferenceViewModel.categoryViewModels().get(2).getCategoryNameInTitleCase(),
                 is("Create"));
+  }
+
+  @Test
+  public void showProgressDialogRenderResponseAndHideDialog(){
+    agendaPresenter.fetchEvents();
+    InOrder inOrder = inOrder(mockAgendaView);
+    inOrder.verify(mockAgendaView).showProgressDialog();
+    inOrder.verify(mockAgendaView).render(conferenceVMCaptor.capture());
+    inOrder.verify(mockAgendaView).dismissProgressDialog();
+
   }
 }

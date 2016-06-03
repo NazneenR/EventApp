@@ -4,4 +4,6 @@ import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 
 public interface AgendaView {
   void render(ConferenceViewModel conferenceViewModel);
+  void showProgressDialog();
+  void dismissProgressDialog();
 }
