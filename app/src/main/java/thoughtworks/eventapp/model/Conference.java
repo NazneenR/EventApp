@@ -10,11 +10,6 @@ public class Conference {
     this.sessions = sessions;
   }
 
-  //TODO: I do not like exposing this
-  public List<Session> getSessions() {
-    return sessions;
-  }
-
   public List<Session> filterByCategory(Category category) {
     List<Session> filteredSessions = new ArrayList<>();
     for (Session session : sessions) {
