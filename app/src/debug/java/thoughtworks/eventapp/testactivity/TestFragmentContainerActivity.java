@@ -11,6 +11,5 @@ public class TestFragmentContainerActivity extends Activity{
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.test_fragment_container);
-    getFragmentManager().beginTransaction().add(R.id.test_fragment_container, new Fragment()).commit();
   }
 }
