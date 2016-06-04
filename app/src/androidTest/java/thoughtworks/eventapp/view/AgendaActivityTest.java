@@ -33,7 +33,7 @@ import static org.mockito.Mockito.reset;
 import static thoughtworks.eventapp.model.Category.ASPIRE;
 import static thoughtworks.eventapp.model.Category.BELONG;
 import static thoughtworks.eventapp.model.Category.CREATE;
-import static thoughtworks.eventapp.utils.TestUtils.getDate;
+import static thoughtworks.eventapp.utils.DateUtil.getDate;
 
 @RunWith(AndroidJUnit4.class)
 public class AgendaActivityTest {
