@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.presenter.AgendaPresenter;
-import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 
 public class AgendaActivity extends AppCompatActivity implements AgendaView {
@@ -27,7 +26,7 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
   }
 
   private void fetchSessions() {
-    new AgendaPresenter(getApiClient(), this, new SessionRepository()).fetchSessions();
+    new AgendaPresenter(getApiClient(), this).fetchSessions();
   }
 
   @NonNull
@@ -51,16 +50,6 @@ public class AgendaActivity extends AppCompatActivity implements AgendaView {
   @Override
   public void dismissProgressDialog() {
     progressDialog.dismiss();
-  }
-
-  @Override
-  public void showConflictPopup() {
-
-  }
-
-  @Override
-  public void showSessionAddedSuccessfully() {
-
   }
 
   private void setupTabs(ConferenceViewModel conferenceViewModel) {

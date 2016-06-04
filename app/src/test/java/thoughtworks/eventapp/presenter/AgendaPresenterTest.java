@@ -9,7 +9,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.view.AgendaView;
 import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
-import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -30,8 +28,6 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static thoughtworks.eventapp.DateUtil.getDate;
 
 public class AgendaPresenterTest {
@@ -51,14 +47,13 @@ public class AgendaPresenterTest {
     agendaViewMock = mock(AgendaView.class);
     apiClientMock = mock(APIClient.class);
     sessionRepository = mock(SessionRepository.class);
-    agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock, sessionRepository);
+    agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock);
 
     sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-23",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
     sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-23",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Pre Function Area");
     mockAPIClient();
-
   }
 
   @Test
@@ -77,51 +72,6 @@ public class AgendaPresenterTest {
     assertThat(3, is(conferenceViewModel.size()));
     assertThat(1, is(conferenceViewModel.sessionsAt(0).size()));
     assertThat(1, is(conferenceViewModel.sessionsAt(1).size()));
-  }
-
-  @Test
-  public void showConflictPopupIfAParallelSessionIsSaved() throws ParseException {
-    agendaPresenter.fetchSessions();
-
-    List<Session> savedSessions = new ArrayList<>();
-    savedSessions.add(sessionInTrackOne);
-
-    when(sessionRepository.getSavedSessions()).thenReturn(savedSessions);
-
-    agendaPresenter.addSession(new SessionViewModel(sessionInTrackTwo), Category.ASPIRE);
-
-    verify(agendaViewMock).showConflictPopup();
-  }
-
-  @Test
-  public void showConflictPopupIfASessionStartingDuringAOnGoingParallelSessionIsSaved() throws ParseException {
-    agendaPresenter.fetchSessions();
-
-    List<Session> savedSessions = new ArrayList<>();
-    savedSessions.add(sessionInTrackOne);
-
-    when(sessionRepository.getSavedSessions()).thenReturn(savedSessions);
-
-    agendaPresenter.addSession(new SessionViewModel(sessionInTrackTwo), Category.ASPIRE);
-
-    verify(agendaViewMock).showConflictPopup();
-  }
-
-  @Test
-  public void showSaveSessionIfNoConflictingSessionFound() throws ParseException {
-    sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-24",
-        getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Ballroom");
-    agendaPresenter.fetchSessions();
-
-    List<Session> savedSessions = new ArrayList<>();
-    savedSessions.add(sessionInTrackOne);
-
-    when(sessionRepository.getSavedSessions()).thenReturn(savedSessions);
-
-    agendaPresenter.addSession(new SessionViewModel(sessionInTrackTwo), Category.ASPIRE);
-
-    verify(agendaViewMock).showSessionAddedSuccessfully();
-    verify(sessionRepository).saveSession(sessionInTrackTwo);
   }
 
   private void mockAPIClient() {

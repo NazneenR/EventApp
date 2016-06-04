@@ -2,15 +2,15 @@ package thoughtworks.eventapp.repository;
 
 import java.util.List;
 
-import thoughtworks.eventapp.model.Session;
+import thoughtworks.eventapp.model.SessionDAO;
 
 public class SessionRepository {
 
-  public List<Session> getSavedSessions() {
-    return Session.listAll(Session.class);
+  public List<SessionDAO> getSavedSessions() {
+    return SessionDAO.listAll(SessionDAO.class);
   }
 
-  public void saveSession(Session session) {
+  public void saveSession(SessionDAO session) {
     session.save();
   }
 }

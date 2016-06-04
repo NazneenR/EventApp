@@ -7,9 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import java.util.ArrayList;
+
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.view.AgendaAdapter;
+import thoughtworks.eventapp.view.ViewPagerAdapter;
 import thoughtworks.eventapp.viewmodel.SessionViewModel;
 
 public class AgendaTimelineFragment extends Fragment {
@@ -18,7 +21,7 @@ public class AgendaTimelineFragment extends Fragment {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    sessionViewModels = getArguments().getParcelableArrayList("sessionViewModels");
+    sessionViewModels = getArguments().getParcelableArrayList(ViewPagerAdapter.SESSION_VIEW_MODEL);
   }
 
   @Nullable

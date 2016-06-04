@@ -5,12 +5,11 @@ import android.os.Parcelable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
-import com.orm.SugarRecord;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class Session extends SugarRecord<Session> implements Parcelable {
+public class Session implements Parcelable {
   private String name;
   private String description;
   private String date;
@@ -101,36 +100,5 @@ public class Session extends SugarRecord<Session> implements Parcelable {
     parcel.writeLong(startTime.getTime());
     parcel.writeLong(endTime.getTime());
     parcel.writeString(category.name());
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-
-    Session session = (Session) o;
-
-    if (name != null ? !name.equals(session.name) : session.name != null) return false;
-    if (location != null ? !location.equals(session.location) : session.location != null) return false;
-    if (description != null ? !description.equals(session.description) : session.description != null)
-      return false;
-    if (date != null ? !date.equals(session.date) : session.date != null) return false;
-    if (startTime != null ? !startTime.equals(session.startTime) : session.startTime != null)
-      return false;
-    if (endTime != null ? !endTime.equals(session.endTime) : session.endTime != null) return false;
-    return category == session.category;
-
-  }
-
-  @Override
-  public int hashCode() {
-    int result = name != null ? name.hashCode() : 0;
-    result = 31 * result + (description != null ? description.hashCode() : 0);
-    result = 31 * result + (location != null ? location.hashCode() : 0);
-    result = 31 * result + (date != null ? date.hashCode() : 0);
-    result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
-    result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
-    result = 31 * result + (category != null ? category.hashCode() : 0);
-    return result;
   }
 }

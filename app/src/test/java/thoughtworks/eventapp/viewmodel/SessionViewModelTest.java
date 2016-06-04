@@ -39,5 +39,4 @@ public class SessionViewModelTest {
 
     assertThat(sessionViewModel.getDisplayTime(), is("09:00 PM - 11:55 PM (2h 55min)"));
   }
-
 }
