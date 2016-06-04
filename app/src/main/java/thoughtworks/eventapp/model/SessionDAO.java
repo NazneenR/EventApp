@@ -51,4 +51,8 @@ public class SessionDAO extends SugarRecord<SessionDAO> {
   public Date getEndTime() {
     return endTime;
   }
+
+  public String getName(){
+    return title;
+  }
 }

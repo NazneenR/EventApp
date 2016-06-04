@@ -1,5 +1,7 @@
 package thoughtworks.eventapp.presenter;
 
+import android.content.res.Resources;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,6 +9,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.SessionDAO;
@@ -32,12 +35,15 @@ public class SessionDetailsPresenterTest {
   public void setup() throws ParseException {
     sessionRepository = mock(SessionRepository.class);
     detailViewMock = mock(DetailView.class);
-    detailsPresenter = new SessionDetailsPresenter(detailViewMock, sessionRepository);
+    final Resources resources = mock(Resources.class);
+    detailsPresenter = new SessionDetailsPresenter(detailViewMock, sessionRepository, resources);
+
+    when(resources.getString(R.string.session_saved)).thenReturn("Session successfully saved");
 
     sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-23",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
-    sessionInTrackTwo = new Session("Craft", "Try your hand at craft", "2016-05-23",
-        getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.CREATE, "Ballroom");
+    sessionInTrackTwo = new Session("Keynote", "Try your hand at craft", "2016-05-23",
+        getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.CREATE, "Pre function area");
 
     sessionDAOOne = SessionDAO.createFrom(sessionInTrackOne);
     sessionDAOTwo = SessionDAO.createFrom(sessionInTrackTwo);
@@ -52,7 +58,7 @@ public class SessionDetailsPresenterTest {
 
     detailsPresenter.addSession(sessionInTrackOne);
 
-    verify(detailViewMock).showConflictPopup();
+    verify(detailViewMock).showConflictPopup("Keynote","Craft");
   }
 
   @Test
@@ -64,7 +70,7 @@ public class SessionDetailsPresenterTest {
 
     detailsPresenter.addSession(sessionInTrackTwo);
 
-    verify(detailViewMock).showConflictPopup();
+    verify(detailViewMock).showConflictPopup("Craft", "Keynote");
   }
 
   @Test
@@ -81,7 +87,7 @@ public class SessionDetailsPresenterTest {
 
     detailsPresenter.addSession(sessionInTrackTwo);
 
-    verify(detailViewMock).showSessionAddedSuccessfully();
+    verify(detailViewMock).showSessionAddedSuccessfully("Session successfully saved");
     verify(sessionRepository).saveSession(expectedSessionDAO);
   }
 }

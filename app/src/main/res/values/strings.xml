@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">EventApp</string>
     <string name="loading">Fetching Sessions</string>
+    <string name="save">Save</string>
+    <string name="agenda_overlap_dialog_title">Schedule Overlap</string>
+    <string name="session_saved">Session successfully saved</string>
 </resources>

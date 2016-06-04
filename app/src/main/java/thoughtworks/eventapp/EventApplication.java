@@ -1,10 +1,9 @@
 package thoughtworks.eventapp;
 
-import android.app.Application;
-
 import com.firebase.client.Firebase;
+import com.orm.SugarApp;
 
-public class EventApplication extends Application {
+public class EventApplication extends SugarApp {
 
   @Override
   public void onCreate() {

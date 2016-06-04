@@ -1,10 +1,13 @@
 package thoughtworks.eventapp.presenter;
 
+import android.content.res.Resources;
+
 import org.joda.time.Interval;
 
 import java.util.Date;
 import java.util.List;
 
+import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.SessionDAO;
 import thoughtworks.eventapp.repository.SessionRepository;
@@ -14,10 +17,12 @@ public class SessionDetailsPresenter {
 
   private final DetailView detailView;
   private final SessionRepository sessionRepository;
+  private final Resources resources;
 
-  public SessionDetailsPresenter(DetailView detailView, SessionRepository sessionRepository){
+  public SessionDetailsPresenter(DetailView detailView, SessionRepository sessionRepository, Resources resources){
     this.detailView = detailView;
     this.sessionRepository = sessionRepository;
+    this.resources = resources;
   }
 
   public void addSession(Session sessionToAdd){
@@ -28,10 +33,10 @@ public class SessionDetailsPresenter {
       Interval interval1 = new Interval(startTimeOfNewSession.getTime(), endTimeOfNewSession.getTime());
       Interval interval2 = new Interval(session.getStartTime().getTime(), session.getEndTime().getTime());
       if(interval1.overlap(interval2) != null){
-        detailView.showConflictPopup();
+        detailView.showConflictPopup(session.getName(), sessionToAdd.getName());
       } else {
-        detailView.showSessionAddedSuccessfully();
         sessionRepository.saveSession(SessionDAO.createFrom(sessionToAdd));
+        detailView.showSessionAddedSuccessfully(resources.getString(R.string.session_saved));
       }
     }
   }
