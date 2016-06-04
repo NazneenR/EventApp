@@ -11,18 +11,15 @@ import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import thoughtworks.eventapp.EventAppAndroidJUnitRunner;
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
-import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.model.Conference;
+import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.rule.ActivityUnitTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -34,7 +31,9 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static thoughtworks.eventapp.model.Category.ASPIRE;
+import static thoughtworks.eventapp.model.Category.BELONG;
 import static thoughtworks.eventapp.model.Category.CREATE;
+import static thoughtworks.eventapp.utils.TestUtils.getDate;
 
 @RunWith(AndroidJUnit4.class)
 public class AgendaActivityTest {
@@ -59,10 +58,12 @@ public class AgendaActivityTest {
 
         Conference conference = new Conference();
         Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE, "Ballroom");
-        Session session2 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE, "Pre Function Area");
+        Session session2 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), BELONG, "Ballroom");
+        Session session3 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE, "Pre Function Area");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
+        sessionList.add(session3);
         conference.setSessions(sessionList);
 
         callback.onSuccess(conference);
@@ -101,11 +102,4 @@ public class AgendaActivityTest {
       }
     };
   }
-
-  //TODO: This method is duplicated with DateUtil.getDate(). Also SimpleDateFormat behaves differently for Junit and Android Test.
-  private Date getDate(String dateString) throws ParseException {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
-    return simpleDateFormat.parse(dateString);
-  }
-
 }
