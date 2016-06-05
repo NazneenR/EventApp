@@ -18,13 +18,19 @@ import thoughtworks.eventapp.EventAppAndroidJUnitRunner;
 import thoughtworks.eventapp.R;
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
+import thoughtworks.eventapp.apiclient.NetworkException;
 import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.rule.ActivityUnitTestRule;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
@@ -37,6 +43,8 @@ import static thoughtworks.eventapp.utils.DateUtil.getDate;
 
 @RunWith(AndroidJUnit4.class)
 public class AgendaActivityTest {
+  public static final String URL = "https://intense-fire-9666.firebaseio.com/";
+  public static final String THERE_IS_NO_NETWORK = "There is no network";
   protected APIClient apiClient;
 
   @Rule
@@ -69,11 +77,30 @@ public class AgendaActivityTest {
         callback.onSuccess(conference);
         return null;
       }
-    }).when(apiClient).get(eq("https://intense-fire-9666.firebaseio.com/"), any(APIClientCallback.class));
+    }).when(apiClient).get(eq(URL), any(APIClientCallback.class));
 
     activityTestRule.launchActivity(new Intent());
 
     onView(withId(R.id.viewpager)).perform(swipeLeft());
+  }
+
+  @Test
+  public void shouldShowDialogOnFailureOfFetchingData(){
+    doAnswer(new Answer() {
+      @Override
+      public Object answer(InvocationOnMock invocation) throws Throwable {
+        final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
+        callback.onFailure(new NetworkException(THERE_IS_NO_NETWORK));
+        return null;
+      }
+    }).when(apiClient).get(eq(URL), any(APIClientCallback.class));
+
+    activityTestRule.launchActivity(new Intent());
+
+    onView(withId(android.R.id.message)).inRoot(isDialog()).check(matches(withText(THERE_IS_NO_NETWORK)));
+    onView(withId(android.R.id.button1)).inRoot(isDialog()).check(matches(withText("OK")));
+    onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click());
+    assertTrue(activityTestRule.getActivity().isFinishing());
   }
 
   @NonNull

@@ -33,6 +33,12 @@ public class AgendaPresenter {
       }
 
       @Override
+      public void onFailure(Exception e) {
+        agendaView.dismissProgressDialog();
+        agendaView.showDialog(e.getMessage());
+      }
+
+      @Override
       public Class<Conference> getClassOfType() {
         return Conference.class;
       }

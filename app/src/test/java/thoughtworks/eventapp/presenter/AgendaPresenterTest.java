@@ -14,6 +14,7 @@ import java.util.List;
 
 import thoughtworks.eventapp.apiclient.APIClient;
 import thoughtworks.eventapp.apiclient.APIClientCallback;
+import thoughtworks.eventapp.apiclient.NetworkException;
 import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.model.Session;
@@ -28,10 +29,13 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static thoughtworks.eventapp.DateUtil.getDate;
 
 public class AgendaPresenterTest {
 
+  public static final String NETWORK_ERROR = "There is No Network";
+  public static final String URL = "https://intense-fire-9666.firebaseio.com/";
   private APIClient apiClientMock;
   private AgendaView agendaViewMock;
   private AgendaPresenter agendaPresenter;
@@ -53,11 +57,25 @@ public class AgendaPresenterTest {
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
     sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-23",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Pre Function Area");
-    mockAPIClient();
   }
 
   @Test
-  public void shouldCallRenderWithViewModelAfterFetchingData(){
+  public void shouldCallRenderWithViewModelAfterFetchingData() {
+    doAnswer(new Answer() {
+      @Override
+      public Object answer(InvocationOnMock invocation) throws Throwable {
+        final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
+        Conference conference = new Conference();
+        List<Session> sessions = new ArrayList<>();
+        sessions.add(sessionInTrackOne);
+        sessions.add(sessionInTrackTwo);
+        conference.setSessions(sessions);
+
+        callback.onSuccess(conference);
+        return null;
+      }
+    }).when(apiClientMock).get(eq(URL), any(APIClientCallback.class));
+
     agendaPresenter.fetchSessions();
 
     InOrder inOrder = inOrder(agendaViewMock);
@@ -74,21 +92,19 @@ public class AgendaPresenterTest {
     assertThat(1, is(conferenceViewModel.getCategoryViewModelAt(1).getSessionViewModels().size()));
   }
 
-  private void mockAPIClient() {
+  @Test
+  public void shouldCallShowDialogOnFailureOfFetchingData() {
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
-
-        Conference conference = new Conference();
-        List<Session> sessions = new ArrayList<>();
-        sessions.add(sessionInTrackOne);
-        sessions.add(sessionInTrackTwo);
-        conference.setSessions(sessions);
-
-        callback.onSuccess(conference);
+        callback.onFailure(new NetworkException(NETWORK_ERROR));
         return null;
       }
-    }).when(apiClientMock).get(eq("https://intense-fire-9666.firebaseio.com/"), any(APIClientCallback.class));
+    }).when(apiClientMock).get(eq(URL), any(APIClientCallback.class));
+    agendaPresenter.fetchSessions();
+
+    verify(agendaViewMock).showDialog(eq(NETWORK_ERROR));
   }
+
 }
