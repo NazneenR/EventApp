@@ -1,7 +1,5 @@
 package thoughtworks.eventapp.viewmodel;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,45 +9,27 @@ import thoughtworks.eventapp.model.Session;
 
 public class ConferenceViewModel {
 
-  private List<Category> categories;
-  private List<List<SessionViewModel>> sessionViewModels;
+  private List<CategoryViewModel> categoryViewModels;
 
-  private ConferenceViewModel(List<Category> categories, List<List<SessionViewModel>> sessionViewModels) {
-    this.categories = categories;
-    this.sessionViewModels = sessionViewModels;
-  }
-
-  public String categoryAt(int index) {
-    return categories.get(index).name();
-  }
-
-  public List<SessionViewModel> sessionsAt(int index) {
-    return sessionViewModels.get(index);
+  private ConferenceViewModel(List<CategoryViewModel> categoryViewModels) {
+    this.categoryViewModels = categoryViewModels;
   }
 
   public static ConferenceViewModel createFrom(List<Category> categories, Conference conference) {
-    List<List<SessionViewModel>> sessionViewModels = new ArrayList<>();
+    List<CategoryViewModel> categoryViewModels = new ArrayList<>();
     for (Category category : Category.values()) {
-      sessionViewModels.add(getSessionViewModelsByCategory(conference, category));
+      final List<Session> filteredSessions = conference.filterByCategory(category);
+      CategoryViewModel categoryViewModel = CategoryViewModel.createFrom(category, filteredSessions);
+      categoryViewModels.add(categoryViewModel);
     }
-    return new ConferenceViewModel(categories, sessionViewModels);
+    return new ConferenceViewModel(categoryViewModels);
   }
 
-  @NonNull
-  private static ArrayList<SessionViewModel> getSessionViewModelsByCategory(Conference conference, Category category) {
-    ArrayList<SessionViewModel> sessionViewModels = new ArrayList<>();
-    final List<Session> filteredSessions = conference.filterByCategory(category);
-    for (Session session : filteredSessions) {
-      sessionViewModels.add(new SessionViewModel(session));
-    }
-    return sessionViewModels;
+  public CategoryViewModel getCategoryViewModelAt(int position) {
+    return categoryViewModels.get(position);
   }
 
-  public int size() {
-    return categories.size();
-  }
-
-  public int indexOf(Category category) {
-    return categories.indexOf(category);
+  public int sizeOfCategoryViewModels() {
+    return categoryViewModels.size();
   }
 }

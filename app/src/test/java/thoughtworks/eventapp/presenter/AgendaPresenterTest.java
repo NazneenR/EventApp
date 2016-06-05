@@ -67,11 +67,11 @@ public class AgendaPresenterTest {
 
     final ConferenceViewModel conferenceViewModel = sessionViewModelArgumentCaptor.getValue();
 
-    assertThat("Craft", is(conferenceViewModel.sessionsAt(0).get(0).getName()));
-    assertThat("Keynote", is(conferenceViewModel.sessionsAt(1).get(0).getName()));
-    assertThat(3, is(conferenceViewModel.size()));
-    assertThat(1, is(conferenceViewModel.sessionsAt(0).size()));
-    assertThat(1, is(conferenceViewModel.sessionsAt(1).size()));
+    assertThat("Craft", is(conferenceViewModel.getCategoryViewModelAt(0).getSessionViewModels().get(0).getName()));
+    assertThat("Keynote", is(conferenceViewModel.getCategoryViewModelAt(1).getSessionViewModels().get(0).getName()));
+    assertThat(3, is(conferenceViewModel.sizeOfCategoryViewModels()));
+    assertThat(1, is(conferenceViewModel.getCategoryViewModelAt(0).getSessionViewModels().size()));
+    assertThat(1, is(conferenceViewModel.getCategoryViewModelAt(1).getSessionViewModels().size()));
   }
 
   private void mockAPIClient() {

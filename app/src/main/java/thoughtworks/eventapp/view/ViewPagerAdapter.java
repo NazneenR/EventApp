@@ -24,18 +24,18 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
   public Fragment getItem(int position) {
     final AgendaTimelineFragment agendaTimelineFragment = new AgendaTimelineFragment();
     Bundle bundle = new Bundle();
-    bundle.putParcelableArrayList(SESSION_VIEW_MODEL, (ArrayList<? extends Parcelable>) conferenceViewModel.sessionsAt(position));
+    bundle.putParcelableArrayList(SESSION_VIEW_MODEL, (ArrayList<? extends Parcelable>) conferenceViewModel.getCategoryViewModelAt(position).getSessionViewModels());
     agendaTimelineFragment.setArguments(bundle);
     return agendaTimelineFragment;
   }
 
   @Override
   public int getCount() {
-    return conferenceViewModel.size();
+    return conferenceViewModel.sizeOfCategoryViewModels();
   }
 
   @Override
   public CharSequence getPageTitle(int position) {
-    return conferenceViewModel.categoryAt(position);
+    return conferenceViewModel.getCategoryViewModelAt(position).getCategoryName();
   }
 }

@@ -12,7 +12,7 @@ import thoughtworks.eventapp.model.Session;
 public class SessionViewModel implements Parcelable {
   private Session session;
 
-  public SessionViewModel(Session session) {
+  private SessionViewModel(Session session) {
     this.session = session;
   }
 
@@ -94,5 +94,9 @@ public class SessionViewModel implements Parcelable {
 
   public String getLocation() {
     return session.getLocation();
+  }
+
+  public static SessionViewModel createFrom(Session session) {
+    return new SessionViewModel(session);
   }
 }
