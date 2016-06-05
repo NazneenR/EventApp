@@ -1,7 +1,8 @@
 package thoughtworks.eventapp.testdata;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,15 +16,9 @@ import static thoughtworks.eventapp.model.Category.CREATE;
 
 public class TestDataCreator {
   public static Session sessionFrom(String name, Category category, String startTimeAsString, String endTimeAsString) {
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
-    Date startTime = null;
-    Date endTime = null;
-    try {
-      startTime = simpleDateFormat.parse("2016-05-23T"+startTimeAsString);
-      endTime = simpleDateFormat.parse("2016-05-23T"+endTimeAsString);
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
+    DateTimeFormatter parser = ISODateTimeFormat.dateTimeNoMillis();
+    Date startTime = parser.parseDateTime("2016-05-23T"+startTimeAsString).toDate();
+    Date endTime = parser.parseDateTime("2016-05-23T"+endTimeAsString).toDate();
     return new Session("Craft", "Description of crafts", "2016-05-23",
         startTime, endTime, category);
   }

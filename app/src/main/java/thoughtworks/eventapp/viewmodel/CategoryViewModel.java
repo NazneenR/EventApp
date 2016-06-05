@@ -1,5 +1,8 @@
 package thoughtworks.eventapp.viewmodel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +10,7 @@ import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.model.Session;
 
-public class CategoryViewModel {
+public class CategoryViewModel implements Parcelable{
   private final Category category;
   private final List<Session> sessions;
 
@@ -28,4 +31,34 @@ public class CategoryViewModel {
     }
     return viewModels;
   }
+
+  @Override
+  public int describeContents() {
+    return 0;
+  }
+
+  @Override
+  public void writeToParcel(Parcel dest, int flags) {
+    dest.writeInt(this.category == null ? -1 : this.category.ordinal());
+    dest.writeList(this.sessions);
+  }
+
+  protected CategoryViewModel(Parcel in) {
+    int tmpCategory = in.readInt();
+    this.category = tmpCategory == -1 ? null : Category.values()[tmpCategory];
+    this.sessions = new ArrayList<Session>();
+    in.readList(this.sessions, Session.class.getClassLoader());
+  }
+
+  public static final Creator<CategoryViewModel> CREATOR = new Creator<CategoryViewModel>() {
+    @Override
+    public CategoryViewModel createFromParcel(Parcel source) {
+      return new CategoryViewModel(source);
+    }
+
+    @Override
+    public CategoryViewModel[] newArray(int size) {
+      return new CategoryViewModel[size];
+    }
+  };
 }
