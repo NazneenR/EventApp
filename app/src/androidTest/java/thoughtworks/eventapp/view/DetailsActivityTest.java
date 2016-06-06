@@ -36,7 +36,7 @@ public class DetailsActivityTest {
 
   @Before
   public void setup() throws ParseException {
-    Session sessionInTrackTwo = new Session("Keynote", "Try your hand at craft", "2016-05-23",
+    Session sessionInTrackTwo = new Session("Keynote", "Try your hand at craft",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T18:15:00+05:30"), Category.CREATE, "Pre function area");
 
     SessionDAO.createFrom(sessionInTrackTwo).save();
@@ -45,7 +45,7 @@ public class DetailsActivityTest {
   @Test
   public void showDialogIfConflictingSessionExists() throws ParseException {
     Intent intent = new Intent();
-    Session sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-23",
+    Session sessionInTrackOne = new Session("Craft", "Try your hand at craft",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
     intent.putExtra("session", sessionInTrackOne);
 
@@ -59,7 +59,7 @@ public class DetailsActivityTest {
   @Test
   public void showSuccessfulAdditionOfSessionMessage() throws ParseException {
     Intent intent = new Intent();
-    Session sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-24",
+    Session sessionInTrackOne = new Session("Craft", "Try your hand at craft",
         getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T20:15:00+05:30"), Category.CREATE, "Ballroom");
     intent.putExtra("session", sessionInTrackOne);
 

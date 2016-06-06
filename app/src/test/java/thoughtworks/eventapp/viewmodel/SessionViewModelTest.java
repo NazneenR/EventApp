@@ -15,7 +15,7 @@ public class SessionViewModelTest {
 
   @Test
   public void shouldDisplayFormattedDurationWithMinutes() throws ParseException {
-    final Session session = new Session("Keynote", "Desc", "24-09-2016",
+    final Session session = new Session("Keynote", "Desc",
         getDate("2016-09-24T16:30:00+05:30"), getDate("2016-09-24T17:15:00+05:30"), Category.BELONG, "Ballroom");
     final SessionViewModel sessionViewModel = SessionViewModel.createFrom(session);
 
@@ -24,7 +24,7 @@ public class SessionViewModelTest {
 
   @Test
   public void shouldDisplayFormattedDurationWithHours() throws ParseException {
-    final Session session = new Session("Keynote", "Desc", "24-09-2016",
+    final Session session = new Session("Keynote", "Desc",
         getDate("2016-09-24T21:00:00+05:30"), getDate("2016-09-24T23:00:00+05:30"), Category.ASPIRE, "Ballroom");
     final SessionViewModel sessionViewModel = SessionViewModel.createFrom(session);
 
@@ -33,7 +33,7 @@ public class SessionViewModelTest {
 
   @Test
   public void shouldDisplayFormattedDurationWithHoursAndMins() throws ParseException {
-    final Session session = new Session("Keynote", "Desc", "24-09-2016",
+    final Session session = new Session("Keynote", "Desc",
         getDate("2016-09-24T21:00:00+05:30"), getDate("2016-09-24T23:55:00+05:30"), Category.BELONG, "Ballroom");
     final SessionViewModel sessionViewModel = SessionViewModel.createFrom(session);
 

@@ -13,8 +13,8 @@ public class ConferenceTest {
   @Test
   public void filterSessionsByCategory() {
     Conference conference = new Conference();
-    Session session1 = new Session("Craft", "Try your hand at craft", "23-05-2016", null, null, Category.BELONG, "Ballroom");
-    Session session2 = new Session("Craft", "Try your hand at craft", "24-05-2016", null, null, Category.CREATE, "Pre function area");
+    Session session1 = new Session("Craft", "Try your hand at craft", null, null, Category.BELONG, "Ballroom");
+    Session session2 = new Session("Craft", "Try your hand at craft", null, null, Category.CREATE, "Pre function area");
     List<Session> sessionList = new ArrayList<>();
     sessionList.add(session1);
     sessionList.add(session2);

@@ -58,7 +58,7 @@ public class Session implements Parcelable {
     return location;
   }
 
-  public Session(String name, String description, String date, Date startTime, Date endTime, Category category, String location) {
+  public Session(String name, String description, Date startTime, Date endTime, Category category, String location) {
     this.name = name;
     this.description = description;
     this.startTime = startTime;

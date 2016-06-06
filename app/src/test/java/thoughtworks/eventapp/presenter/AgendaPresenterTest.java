@@ -53,9 +53,9 @@ public class AgendaPresenterTest {
     sessionRepository = mock(SessionRepository.class);
     agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock);
 
-    sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-23",
+    sessionInTrackOne = new Session("Craft", "Try your hand at craft",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
-    sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-23",
+    sessionInTrackTwo = new Session("Keynote", "By Roy Singham",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Pre Function Area");
   }
 

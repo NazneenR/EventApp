@@ -40,9 +40,9 @@ public class SessionDetailsPresenterTest {
 
     when(resources.getString(R.string.session_saved)).thenReturn("Session successfully saved");
 
-    sessionInTrackOne = new Session("Craft", "Try your hand at craft", "2016-05-23",
+    sessionInTrackOne = new Session("Craft", "Try your hand at craft",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), Category.CREATE, "Ballroom");
-    sessionInTrackTwo = new Session("Keynote", "Try your hand at craft", "2016-05-23",
+    sessionInTrackTwo = new Session("Keynote", "Try your hand at craft",
         getDate("2016-05-23T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.CREATE, "Pre function area");
 
     sessionDAOOne = SessionDAO.createFrom(sessionInTrackOne);
@@ -75,7 +75,7 @@ public class SessionDetailsPresenterTest {
 
   @Test
   public void showSaveSessionIfNoConflictingSessionFound() throws ParseException {
-    sessionInTrackTwo = new Session("Keynote", "By Roy Singham", "2016-05-24",
+    sessionInTrackTwo = new Session("Keynote", "By Roy Singham",
         getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Ballroom");
 
     SessionDAO expectedSessionDAO = SessionDAO.createFrom(sessionInTrackTwo);

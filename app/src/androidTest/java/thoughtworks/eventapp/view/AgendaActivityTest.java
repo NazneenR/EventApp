@@ -65,9 +65,9 @@ public class AgendaActivityTest {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
         Conference conference = new Conference();
-        Session session1 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE, "Ballroom");
-        Session session2 = new Session("Craft", "Try your hand at craft", "2016-05-23", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), BELONG, "Ballroom");
-        Session session3 = new Session("Keynote", "By Roy Singham", "2016-05-24", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE, "Pre Function Area");
+        Session session1 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE, "Ballroom");
+        Session session2 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), BELONG, "Ballroom");
+        Session session3 = new Session("Keynote", "By Roy Singham", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE, "Pre Function Area");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
         sessionList.add(session2);
