@@ -12,7 +12,6 @@ import java.util.Date;
 public class Session implements Parcelable {
   private String name;
   private String description;
-  private String date;
   @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
   private Date startTime;
   @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
@@ -27,7 +26,6 @@ public class Session implements Parcelable {
     name = in.readString();
     location = in.readString();
     description = in.readString();
-    date = in.readString();
     Calendar calendar = Calendar.getInstance();
     calendar.setTimeInMillis(in.readLong());
     startTime = calendar.getTime();
@@ -63,15 +61,10 @@ public class Session implements Parcelable {
   public Session(String name, String description, String date, Date startTime, Date endTime, Category category, String location) {
     this.name = name;
     this.description = description;
-    this.date = date;
     this.startTime = startTime;
     this.endTime = endTime;
     this.category = category;
     this.location = location;
-  }
-
-  public String getDate() {
-    return date;
   }
 
   public String getDescription() {
@@ -95,7 +88,6 @@ public class Session implements Parcelable {
   public void writeToParcel(Parcel parcel, int i) {
     parcel.writeString(name);
     parcel.writeString(description);
-    parcel.writeString(date);
     parcel.writeString(location);
     parcel.writeLong(startTime.getTime());
     parcel.writeLong(endTime.getTime());
