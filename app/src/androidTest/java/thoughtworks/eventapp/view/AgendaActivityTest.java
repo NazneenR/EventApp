@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,16 +26,19 @@ import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.model.Session;
 import thoughtworks.eventapp.rule.ActivityUnitTestRule;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.swipeLeft;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -75,7 +79,6 @@ public class AgendaActivityTest {
     onView(atPositionInViewGroup(slidingTabStripViewMatcher, 0)).check(matches(withChild(withText("CREATE"))));
     onView(atPositionInViewGroup(slidingTabStripViewMatcher, 1)).check(matches(withChild(withText("ASPIRE"))));
     onView(atPositionInViewGroup(slidingTabStripViewMatcher, 2)).check(matches(withChild(withText("BELONG"))));
-
   }
 
   @Test
@@ -85,10 +88,12 @@ public class AgendaActivityTest {
     activityTestRule.launchActivity(new Intent());
 
     onView(withId(R.id.viewpager)).perform(swipeLeft());
+    onData(Matchers.anything())
+        .inAdapterView(allOf(withId(R.id.list_view), isDisplayingAtLeast(1))).atPosition(0).onChildView(withId(R.id.location)).check(matches(withText("Ballroom")));
   }
 
   @Test
-  public void shouldShowDialogOnFailureOfFetchingData(){
+  public void shouldShowDialogOnFailureOfFetchingData() {
     doAnswer(new Answer() {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
@@ -114,7 +119,7 @@ public class AgendaActivityTest {
 
         Conference conference = new Conference();
         Session session1 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE, "Ballroom");
-        Session session2 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), BELONG, "Ballroom");
+        Session session2 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), BELONG, "Grand Hall");
         Session session3 = new Session("Keynote", "By Roy Singham", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE, "Pre Function Area");
         List<Session> sessionList = new ArrayList<>();
         sessionList.add(session1);
