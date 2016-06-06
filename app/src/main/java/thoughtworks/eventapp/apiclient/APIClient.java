@@ -23,17 +23,18 @@ public class APIClient {
     Firebase firebase = new Firebase(url);
     if(!isConnectedToInternet())
       apiClientCallback.onFailure(new NetworkException(context.getString(R.string.no_network_error_message)));
-    firebase.addValueEventListener(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot snapshot) {
-        T response = snapshot.getValue(apiClientCallback.getClassOfType());
-        apiClientCallback.onSuccess(response);
-      }
+    else
+      firebase.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot snapshot) {
+          T response = snapshot.getValue(apiClientCallback.getClassOfType());
+          apiClientCallback.onSuccess(response);
+        }
 
-      @Override
-      public void onCancelled(FirebaseError error) {
-      }
-    });
+        @Override
+        public void onCancelled(FirebaseError error) {
+        }
+      });
   }
 
   private boolean isConnectedToInternet() {
