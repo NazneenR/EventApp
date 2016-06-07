@@ -18,7 +18,6 @@ import thoughtworks.eventapp.apiclient.NetworkException;
 import thoughtworks.eventapp.model.Category;
 import thoughtworks.eventapp.model.Conference;
 import thoughtworks.eventapp.model.Session;
-import thoughtworks.eventapp.repository.SessionRepository;
 import thoughtworks.eventapp.view.AgendaView;
 import thoughtworks.eventapp.viewmodel.ConferenceViewModel;
 
@@ -41,7 +40,6 @@ public class AgendaPresenterTest {
   private AgendaPresenter agendaPresenter;
   @Captor
   private ArgumentCaptor<ConferenceViewModel> sessionViewModelArgumentCaptor;
-  private SessionRepository sessionRepository;
   private Session sessionInTrackOne;
   private Session sessionInTrackTwo;
 
@@ -50,7 +48,6 @@ public class AgendaPresenterTest {
     MockitoAnnotations.initMocks(this);
     agendaViewMock = mock(AgendaView.class);
     apiClientMock = mock(APIClient.class);
-    sessionRepository = mock(SessionRepository.class);
     agendaPresenter = new AgendaPresenter(apiClientMock, agendaViewMock);
 
     sessionInTrackOne = new Session("Craft", "Try your hand at craft",
@@ -105,5 +102,4 @@ public class AgendaPresenterTest {
 
     verify(agendaViewMock).showDialog(eq(NETWORK_ERROR));
   }
-
 }
