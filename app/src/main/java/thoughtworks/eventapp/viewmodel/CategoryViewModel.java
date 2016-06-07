@@ -13,7 +13,7 @@ public class CategoryViewModel {
   private Category category;
   private List<SessionViewModel> sessionViewModels;
 
-  public CategoryViewModel(Category category, List<SessionViewModel> sessionViewModels) {
+  private CategoryViewModel(Category category, List<SessionViewModel> sessionViewModels) {
     this.category = category;
     this.sessionViewModels = sessionViewModels;
   }
