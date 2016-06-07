@@ -89,7 +89,7 @@ public class AgendaActivityTest {
 
     onView(withId(R.id.viewpager)).perform(swipeLeft());
     onData(Matchers.anything())
-        .inAdapterView(allOf(withId(R.id.list_view), isDisplayingAtLeast(1))).atPosition(0).onChildView(withId(R.id.location)).check(matches(withText("Ballroom")));
+        .inAdapterView(allOf(withId(R.id.list_view), isDisplayingAtLeast(10))).atPosition(0).onChildView(withId(R.id.location)).check(matches(withText("Ballroom")));
   }
 
   @Test
@@ -117,7 +117,6 @@ public class AgendaActivityTest {
       public Object answer(InvocationOnMock invocation) throws Throwable {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
 
-        Conference conference = new Conference();
         Session session1 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), ASPIRE, "Ballroom");
         Session session2 = new Session("Craft", "Try your hand at craft", getDate("2016-05-23T19:15:00+05:30"), getDate("2016-05-23T20:15:00+05:30"), BELONG, "Grand Hall");
         Session session3 = new Session("Keynote", "By Roy Singham", getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), CREATE, "Pre Function Area");
@@ -125,7 +124,7 @@ public class AgendaActivityTest {
         sessionList.add(session1);
         sessionList.add(session2);
         sessionList.add(session3);
-        conference.setSessions(sessionList);
+        Conference conference = new Conference(sessionList);
 
         callback.onSuccess(conference);
         return null;

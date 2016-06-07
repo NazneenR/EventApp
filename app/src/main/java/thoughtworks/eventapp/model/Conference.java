@@ -6,7 +6,7 @@ import java.util.List;
 public class Conference {
   private List<Session> sessions;
 
-  public void setSessions(List<Session> sessions) {
+  public Conference(List<Session> sessions){
     this.sessions = sessions;
   }
 

@@ -65,11 +65,10 @@ public class AgendaPresenterTest {
       @Override
       public Object answer(InvocationOnMock invocation) throws Throwable {
         final APIClientCallback callback = (APIClientCallback) invocation.getArguments()[1];
-        Conference conference = new Conference();
         List<Session> sessions = new ArrayList<>();
         sessions.add(sessionInTrackOne);
         sessions.add(sessionInTrackTwo);
-        conference.setSessions(sessions);
+        Conference conference = new Conference(sessions);
 
         callback.onSuccess(conference);
         return null;

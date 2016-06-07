@@ -12,13 +12,12 @@ public class ConferenceTest {
 
   @Test
   public void filterSessionsByCategory() {
-    Conference conference = new Conference();
     Session session1 = new Session("Craft", "Try your hand at craft", null, null, Category.BELONG, "Ballroom");
     Session session2 = new Session("Craft", "Try your hand at craft", null, null, Category.CREATE, "Pre function area");
     List<Session> sessionList = new ArrayList<>();
     sessionList.add(session1);
     sessionList.add(session2);
-    conference.setSessions(sessionList);
+    Conference conference = new Conference(sessionList);
 
     final List<Session> filteredSessions = conference.filterByCategory(Category.CREATE);
 
