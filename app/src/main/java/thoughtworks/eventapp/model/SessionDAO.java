@@ -1,17 +1,16 @@
 package thoughtworks.eventapp.model;
 
 import com.orm.SugarRecord;
-
 import java.util.Date;
 
-public class SessionDAO extends SugarRecord<SessionDAO> {
+public class SessionDAO extends SugarRecord {
 
   private String title;
   private Date startTime;
-
   private Date endTime;
 
-  public SessionDAO(){}
+  public SessionDAO(){
+  }
 
   public SessionDAO(String title, Date startTime, Date endTime){
     this.title = title;

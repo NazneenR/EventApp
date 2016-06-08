@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
 import thoughtworks.eventapp.model.Session;
 
 public class SessionViewModel implements Parcelable {
+  public Session getSession() {
+    return session;
+  }
+
   private Session session;
 
   private SessionViewModel(Session session) {

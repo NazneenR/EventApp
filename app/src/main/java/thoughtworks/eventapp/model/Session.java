@@ -24,8 +24,8 @@ public class Session implements Parcelable {
 
   protected Session(Parcel in) {
     name = in.readString();
-    location = in.readString();
     description = in.readString();
+    location = in.readString();
     Calendar calendar = Calendar.getInstance();
     calendar.setTimeInMillis(in.readLong());
     startTime = calendar.getTime();

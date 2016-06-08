@@ -3,7 +3,6 @@ package thoughtworks.eventapp.presenter;
 import android.content.res.Resources;
 
 import org.joda.time.Interval;
-
 import java.util.Date;
 import java.util.List;
 
@@ -29,15 +28,23 @@ public class SessionDetailsPresenter {
     List<SessionDAO> allSavedSessions = sessionRepository.getSavedSessions();
     final Date startTimeOfNewSession = sessionToAdd.getStartTime();
     final Date endTimeOfNewSession = sessionToAdd.getEndTime();
-    for (SessionDAO session : allSavedSessions) {
-      Interval interval1 = new Interval(startTimeOfNewSession.getTime(), endTimeOfNewSession.getTime());
-      Interval interval2 = new Interval(session.getStartTime().getTime(), session.getEndTime().getTime());
-      if(interval1.overlap(interval2) != null){
-        detailView.showConflictPopup(session.getName(), sessionToAdd.getName());
-      } else {
-        sessionRepository.saveSession(SessionDAO.createFrom(sessionToAdd));
-        detailView.showSessionAddedSuccessfully(resources.getString(R.string.session_saved));
+    if(allSavedSessions.isEmpty())
+      saveSession(sessionToAdd);
+    else {
+      for (SessionDAO session : allSavedSessions) {
+        Interval interval1 = new Interval(startTimeOfNewSession.getTime(), endTimeOfNewSession.getTime());
+        Interval interval2 = new Interval(session.getStartTime().getTime(), session.getEndTime().getTime());
+        if (interval1.overlap(interval2) != null) {
+          detailView.showConflictPopup(session.getName(), sessionToAdd.getName());
+        } else {
+          saveSession(sessionToAdd);
+        }
       }
     }
+  }
+
+  private void saveSession(Session sessionToAdd) {
+    sessionRepository.saveSession(SessionDAO.createFrom(sessionToAdd));
+    detailView.showSessionAddedSuccessfully(resources.getString(R.string.session_saved));
   }
 }

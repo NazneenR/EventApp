@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import thoughtworks.eventapp.R;
@@ -47,6 +48,21 @@ public class SessionDetailsPresenterTest {
 
     sessionDAOOne = SessionDAO.createFrom(sessionInTrackOne);
     sessionDAOTwo = SessionDAO.createFrom(sessionInTrackTwo);
+  }
+
+  @Test
+  public void saveSession() throws ParseException {
+    sessionInTrackTwo = new Session("Keynote", "By Roy Singham",
+        getDate("2016-05-24T17:15:00+05:30"), getDate("2016-05-24T18:15:00+05:30"), Category.ASPIRE, "Ballroom");
+
+    SessionDAO expectedSessionDAO = SessionDAO.createFrom(sessionInTrackTwo);
+
+    when(sessionRepository.getSavedSessions()).thenReturn(Collections.EMPTY_LIST);
+
+    detailsPresenter.addSession(sessionInTrackTwo);
+
+    verify(detailViewMock).showSessionAddedSuccessfully("Session successfully saved");
+    verify(sessionRepository).saveSession(expectedSessionDAO);
   }
 
   @Test

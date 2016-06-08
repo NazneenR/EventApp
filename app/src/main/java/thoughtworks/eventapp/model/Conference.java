@@ -12,8 +12,8 @@ public class Conference {
     this.sessions = sessions;
   }
 
-  public void setSessions(List<Session> sessions){
-    this.sessions = sessions;
+  public List<Session> getSessions() {
+    return sessions;
   }
 
   public List<Session> filterByCategory(Category category) {

@@ -6,4 +6,5 @@
     <string name="session_saved">Session successfully saved</string>
     <string name="no_network_error_message">There is no network.</string>
     <string name="ok">OK</string>
+    <!--<string name="timing_overlap">Timing of %s overlaps with timing of %s</string>-->
 </resources>

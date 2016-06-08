@@ -42,4 +42,7 @@ public class CustomEspressoMatcher {
     };
   }
 
+  public static Matcher<View> withDrawable(final int resourceId) {
+    return new DrawableMatcher(resourceId);
+  }
 }
